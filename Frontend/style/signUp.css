@@ -307,6 +307,7 @@ body {
     position: relative;
 }
 
+
 .password-toggle {
     position: absolute;
     right: 1rem;
@@ -508,4 +509,14 @@ body {
         align-items: flex-start;
         gap: 1rem;
     }
+}
+
+@media (min-width: 768px) {
+    #password::placeholder {
+        font-size: 11px;   /* Change size */
+    }
+    #confirmPassword::placeholder {
+        font-size: 11px;
+    }
+
 }

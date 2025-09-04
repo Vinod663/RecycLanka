@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BadCredentialsException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiResponse handleBadCredentials(BadCredentialsException ex){
-        return new ApiResponse(400, "Bad Credentials",null);
+        return new ApiResponse(400, "Bad Credentials",ex.getMessage());
     }
     // Exception Handler for JWT Token Expired Exception
     @ExceptionHandler(ExpiredJwtException.class)

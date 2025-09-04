@@ -187,6 +187,9 @@ document.addEventListener('DOMContentLoaded', function() {
         btnSpinner.classList.remove('d-none');
         signupButton.disabled = true;
 
+        console.log(data.phone) //ABCDEabcde1234
+        console.log(data);
+
         // Simulate account creation (replace with actual API call)
         setTimeout(() => {
             // Reset button state
@@ -194,13 +197,45 @@ document.addEventListener('DOMContentLoaded', function() {
             btnSpinner.classList.add('d-none');
             signupButton.disabled = false;
 
-            // Show success message
-            showNotification('Account created successfully! Please check your email for verification.', 'success');
 
-            // Optionally redirect to login page
+
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:8080/auth/register",
+                data: JSON.stringify({
+                    firstName: data.firstName,
+                    lastName: data.lastName,
+                    email: data.email,
+                    phoneNumber: data.phone,
+                    organizationName:document.getElementById('organization').value,
+                    password: data.password,
+                    role: "USER"
+                }),
+                contentType: "application/json",
+                success: function(response) {
+                    showNotification('Account created successfully! Please check your email for verification.', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'signIn.html';
+                    }, 2000);
+                },
+                error: function(response) {
+                    let errMsg = "An error occurred!";
+                    if (response.responseJSON && response.responseJSON.message) {
+                        errMsg = response.responseJSON.data;
+                    }
+                    showNotification(errMsg, 'error');
+                }
+            })
+
+            // Show a success message
+/*
+            showNotification('Account created successfully! Please check your email for verification.', 'success');
+*/
+
+           /* // Optionally redirect to login page
             setTimeout(() => {
                 window.location.href = 'signIn.html';
-            }, 2000);
+            }, 2000);*/
 
         }, 2000);
     });

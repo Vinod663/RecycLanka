@@ -1,6 +1,6 @@
 package com.recyclanka.waste_management.dto;
 
-import com.recyclanka.waste_management.entity.Role;
+
 import lombok.Data;
 
 @Data

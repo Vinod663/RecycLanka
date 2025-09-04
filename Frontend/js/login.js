@@ -30,6 +30,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const password = document.getElementById('password').value;
         const remember = document.getElementById('remember').checked;
 
+        /*console.log("Email:", email);
+        console.log("Password:", password);*/
+
         // Basic validation
         if (!email || !password) {
             showNotification('Please fill in all required fields', 'error');
@@ -40,30 +43,91 @@ document.addEventListener('DOMContentLoaded', function() {
             showNotification('Please enter a valid email address', 'error');
             return;
         }
+        //////////////////////////////
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8080/auth/login",
+            data: JSON.stringify({ email: email, password: password }),
+            contentType: "application/json",
+            success: function(response) {
+                // Store the JWT token in localStorage
+                console.log(response.data.accessToken);
 
-        // Show loading state
-        showLoadingState(true);
+                localStorage.removeItem("accessToken");
+                localStorage.setItem("accessToken", response.data.accessToken);
 
-        // Simulate login process
-        setTimeout(() => {
-            showLoadingState(false);
+                // Show loading state
+                showLoadingState(true);
 
-            // For demo purposes, show success message
-            showNotification('Login successful! Redirecting...', 'success');
+                // Simulate login process
+                setTimeout(() => {
+                    showLoadingState(false);
 
-            // In a real application, you would redirect or handle the login response
-            console.log('Login attempt:', {
-                email: email,
-                password: password,
-                remember: remember
-            });
+                    // For demo purposes, show a success message
+                    showNotification('Login successful! Redirecting...', 'success');
 
-            // Simulate redirect after 2 seconds
-            setTimeout(() => {
-                showNotification('Welcome to EcoTrace Portal!', 'success');
-            }, 2000);
+                    // Simulate redirect after 2 seconds (Should be dashboard.js)
+                    setTimeout(() => {
+                        showNotification('Welcome to RecycLanka!', 'success');
+                    }, 2000);
 
-        }, 2000);
+                    // Check the role and redirect accordingly after 3 seconds
+                    setTimeout(()=>{
+                        // First: Try Admin
+                        $.ajax({
+                            type: "GET",
+                            url: "http://localhost:8080/hello/admin",
+                            headers: {
+                                "Authorization": "Bearer " + localStorage.getItem("accessToken")
+                            },
+
+                            success: function (response) {
+                                console.log("🛡️ Logged in as ADMIN");
+                                window.location.href="adminDashboard.html";
+                            },
+
+                            error: function () {
+                                // If not admin, try user
+                                $.ajax({
+                                    type: "GET",
+                                    url: "http://localhost:8080/hello/user",
+                                    headers: {
+                                        "Authorization": "Bearer " + localStorage.getItem("accessToken")
+                                    },
+
+                                    success: function (response) {
+                                        console.log("👤 Logged in as USER");
+                                        window.location.href="userDashboard.html";
+                                    },
+
+                                    error: function () {
+                                        alert("❌ Unauthorized! Your token is invalid or expired.");
+                                        window.location.href = "signIn.html";
+                                    }
+                                });
+                            }
+                        });
+                    }, 3000);
+
+
+                });
+
+                /*showNotification('Login successful! Redirecting...', 'success');*/
+
+                // Simulate redirect after 2 seconds
+                /*setTimeout(() => {
+                    window.location.href = "dashboard.html"; // Redirect to the main page
+                }, 2000);*/
+            },
+            error: function(response) {
+                let errMsg = "An error occurred!";
+                if (response.responseJSON && response.responseJSON.message) {
+                    errMsg = response.responseJSON.data;
+                }
+                showNotification(errMsg, 'error');
+            }
+        })
+
     });
 
     // Show/hide loading state
@@ -252,5 +316,5 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    console.log('EcoTrace Portal Login Page Initialized');
+    console.log('RecycLanka Login Page Initialized');
 });
