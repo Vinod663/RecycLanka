@@ -6,7 +6,7 @@ import com.recyclanka.waste_management.dto.RegisterDto;
 import com.recyclanka.waste_management.entity.Role;
 import com.recyclanka.waste_management.entity.User;
 import com.recyclanka.waste_management.repository.UserRepository;
-import com.recyclanka.waste_management.utill.JwtUtil;
+import com.recyclanka.waste_management.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 

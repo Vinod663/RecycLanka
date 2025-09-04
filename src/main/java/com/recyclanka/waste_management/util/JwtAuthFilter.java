@@ -1,4 +1,4 @@
-package com.recyclanka.waste_management.utill;
+package com.recyclanka.waste_management.util;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

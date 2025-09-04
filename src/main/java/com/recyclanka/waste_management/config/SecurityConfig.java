@@ -1,6 +1,6 @@
 package com.recyclanka.waste_management.config;
 
-import com.recyclanka.waste_management.utill.JwtAuthFilter;
+import com.recyclanka.waste_management.util.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
