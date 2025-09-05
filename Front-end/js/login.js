@@ -67,9 +67,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     showNotification('Login successful! Redirecting...', 'success');
 
                     // Simulate redirect after 2 seconds (Should be dashboard.js)
-                    setTimeout(() => {
+                    /*setTimeout(() => {
                         showNotification('Welcome to RecycLanka!', 'success');
-                    }, 2000);
+                    }, 2000);*/
 
                     // Check the role and redirect accordingly after 3 seconds
                     setTimeout(()=>{
