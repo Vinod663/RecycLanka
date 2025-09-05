@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', function() {
         btnSpinner.classList.remove('d-none');
         signupButton.disabled = true;
 
-        console.log(data.phone) //ABCDEabcde1234
+        console.log(data.phone) //psw-ABCDEabcde1234
         console.log(data);
 
         // Simulate account creation (replace with actual API call)
