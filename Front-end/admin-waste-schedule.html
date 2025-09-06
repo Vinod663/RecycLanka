@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collection Schedule - RecycLanka Admin</title>
+    <meta name="description" content="RecycLanka Collection Schedule Management System">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="style/admin-waste-schedule.css">
+    <link rel="stylesheet" href="style/admin-style.css"><!--//danata meekama dammata passe oona styles tika witarak copy karala ganna-->
+    <!-- jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+</head>
+
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light fixed-top admin-navbar">
+    <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center" href="#home">
+            <i class="fas fa-recycle brand-icon me-2"></i>
+            <span class="brand-text">RecycLanka</span>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="adminDashboard.html">
+                        <i class="fas fa-home me-1"></i>Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="admin-waste-schedule.html">
+                        <i class="fas fa-calendar-alt me-1"></i>Collection Schedule
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#inventory">
+                        <i class="fas fa-boxes me-1"></i>Inventory Management
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#statistics">
+                        <i class="fas fa-chart-bar me-1"></i>Statistics
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#waste-entry">
+                        <i class="fas fa-plus-circle me-1"></i>Waste Entry
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#complaints">
+                        <i class="fas fa-exclamation-triangle me-1"></i>Complaints
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-ellipsis-h me-1"></i>More
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#reports"><i class="fas fa-file-alt me-2"></i>Reports</a></li>
+                        <li><a class="dropdown-item" href="#settings"><i class="fas fa-cog me-2"></i>Settings</a></li>
+                        <li><a class="dropdown-item" href="#users"><i class="fas fa-users me-2"></i>User Management</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="navbar-nav">
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+                        <div class="profile-avatar me-2">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <span>Admin</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#profile"><i class="fas fa-user me-2"></i>Profile</a></li>
+                        <li><a class="dropdown-item" href="#notifications"><i class="fas fa-bell me-2"></i>Notifications</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="login.html"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <h1 class="page-title">Collection Schedule Management</h1>
+                <p class="page-subtitle">
+                    Plan and manage waste collection schedules across municipalities and wards.
+                    Set specific times for degradable, recyclable, and non-recyclable waste collection.
+                </p>
+            </div>
+            <div class="col-lg-4 d-flex align-items-center justify-content-end">
+                <button class="btn btn-primary" onclick="generatePDFReport()">
+                    <i class="fas fa-file-pdf me-2"></i>Generate PDF Report
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main Content -->
+<div class="container my-5">
+    <!-- Control Panel -->
+    <div class="control-panel">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label for="municipalSelect" class="form-label">
+                    <i class="fas fa-city me-2"></i>Select Municipality
+                </label>
+                <select class="form-select" id="municipalSelect" onchange="loadWards()">
+                    <option value="">Choose a municipality...</option>
+                    <option value="colombo">Colombo Municipal Council</option>
+                    <option value="dehiwala">Dehiwala-Mount Lavinia</option>
+                    <option value="moratuwa">Moratuwa Municipal Council</option>
+                    <option value="kotte">Sri Jayawardenepura Kotte</option>
+                    <option value="maharagama">Maharagama Urban Council</option>
+                    <option value="kesbewa">Kesbewa Urban Council</option>
+                </select>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="wardSelect" class="form-label">
+                    <i class="fas fa-map-marker-alt me-2"></i>Select Ward
+                </label>
+                <select class="form-select" id="wardSelect" disabled>
+                    <option value="">Select municipality first...</option>
+                </select>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="searchWard" class="form-label">
+                    <i class="fas fa-search me-2"></i>Search Wards
+                </label>
+                <input type="text" class="form-control" id="searchWard" placeholder="Type to search wards..." oninput="searchWards()">
+            </div>
+        </div>
+    </div>
+
+    <!-- Schedule Form -->
+    <div class="control-panel" id="scheduleForm" style="display: none;">
+        <h5 class="mb-4">
+            <i class="fas fa-calendar-plus me-2"></i>
+            Set Collection Schedule for <span id="selectedWardName"></span>
+        </h5>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="collectionDate" class="form-label">Collection Date</label>
+                <input type="date" class="form-control" id="collectionDate">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="wasteType" class="form-label">Waste Type</label>
+                <select class="form-select" id="wasteType">
+                    <option value="">Select waste type...</option>
+                    <option value="degradable">Degradable Waste</option>
+                    <option value="recyclable">Recyclable Waste</option>
+                    <option value="non-recyclable">Non-Recyclable Waste</option>
+                </select>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="startTime" class="form-label">Start Time</label>
+                <input type="time" class="form-control" id="startTime">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="endTime" class="form-label">End Time</label>
+                <input type="time" class="form-control" id="endTime">
+            </div>
+            <div class="col-12">
+                <button class="btn btn-primary" onclick="addSchedule()">
+                    <i class="fas fa-plus me-2"></i>Add Schedule
+                </button>
+                <button class="btn btn-outline-primary ms-2" onclick="clearForm()">
+                    <i class="fas fa-times me-2"></i>Clear Form
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Current Schedules -->
+    <div class="schedule-table" id="schedulesContainer" style="display: none;">
+        <div class="p-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="mb-0">
+                    <i class="fas fa-list me-2"></i>
+                    Collection Schedules for <span id="currentMunicipalName"></span>
+                </h5>
+                <span class="badge bg-primary" id="scheduleCount">0 schedules</span>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table" id="schedulesTable">
+                <thead>
+                <tr>
+                    <th>Ward</th>
+                    <th>Date</th>
+                    <th>Waste Type</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody id="schedulesTableBody">
+                <!-- Dynamic content -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="admin-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="footer-brand">
+                    <div class="d-flex align-items-center mb-3 justify-content-md-start justify-content-center">
+                        <i class="fas fa-recycle fs-2 me-3" style="color: var(--primary-color);"></i>
+                        <div class="text-md-start text-center">
+                            <h5 class="mb-0">RecycLanka</h5>
+                            <small>Sustainable Future Initiative</small>
+                        </div>
+                    </div>
+                    <p class="text-md-start text-center">
+                        Leading Sri Lanka's digital transformation in waste management and recycling.
+                        Building cleaner, greener communities through innovative technology solutions.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-md-3 col-sm-6 mb-4">
+                <h6 class="footer-title text-md-start text-center">Quick Links</h6>
+                <ul class="footer-links">
+                    <li><a href="#home">Dashboard</a></li>
+                    <li><a href="#collection">Collections</a></li>
+                    <li><a href="#inventory">Inventory</a></li>
+                    <li><a href="#statistics">Analytics</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-2 col-md-3 col-sm-6 mb-4">
+                <h6 class="footer-title text-md-start text-center">Management</h6>
+                <ul class="footer-links">
+                    <li><a href="#waste-entry">Waste Entry</a></li>
+                    <li><a href="#complaints">Complaints</a></li>
+                    <li><a href="#reports">Reports</a></li>
+                    <li><a href="#settings">Settings</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-2 col-md-3 col-sm-6 mb-4">
+                <h6 class="footer-title text-md-start text-center">Support</h6>
+                <ul class="footer-links">
+                    <li><a href="#help">Help Center</a></li>
+                    <li><a href="#documentation">Documentation</a></li>
+                    <li><a href="#training">Training</a></li>
+                    <li><a href="#contact">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-2 col-md-3 col-sm-6 mb-4">
+                <h6 class="footer-title text-md-start text-center">Environmental Impact</h6>
+                <div class="impact-stats">
+                    <div class="impact-item">
+                        <i class="fas fa-tree"></i>
+                        <span>1,247 Trees Saved</span>
+                    </div>
+                    <div class="impact-item">
+                        <i class="fas fa-water"></i>
+                        <span>89% Water Saved</span>
+                    </div>
+                    <div class="impact-item">
+                        <i class="fas fa-leaf"></i>
+                        <span>Carbon Neutral</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="footer-divider">
+
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <p class="copyright mb-0">
+                    © 2024 RecycLanka. All rights reserved.
+                    <span>Building a Sustainable Sri Lanka</span>
+                </p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <div class="footer-social">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Custom Script -->
+<script src="js/admin-waste-schedule.js"></script>
+</body>
+</html>
