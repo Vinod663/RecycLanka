@@ -34,7 +34,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="#" onclick="showSection('admin-dashboard')">
+                    <a class="nav-link" href="#" onclick="showSection('dashboard')">
                         <i class="fas fa-home me-1"></i>Home
                     </a>
                 </li>
@@ -95,7 +95,7 @@
     </div>
 </nav>
 
-<section id="admin-dashboard" class="admin-dashboard section">
+<section id="dashboard" class="dashboard section">
     <!-- Hero Section -->
     <section id="home" class="hero-section">
         <div class="hero-overlay"></div>
@@ -490,6 +490,7 @@
 <script src="js/admin-waste-schedule.js"></script>
 
 <script>
+    document.getElementById('dashboard').style.display = 'block';
     function showSection(sectionId) {
         // Hide all sections
         document.querySelectorAll('.section').forEach(sec => sec.style.display = 'none');
@@ -509,7 +510,7 @@
     }
 
     function loadLastSection() {
-        const lastSection = localStorage.getItem('lastSection') || 'admin-dashboard';
+        const lastSection = localStorage.getItem('lastSection') || 'dashboard';
         showSection(lastSection);
     }
 

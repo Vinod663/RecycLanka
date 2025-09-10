@@ -30,7 +30,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="#" onclick="showSection('user-dashboard')">
+                    <a class="nav-link" href="#" onclick="showSection('dashboard')">
                         <i class="fas fa-home me-1"></i>Home
                     </a>
                 </li>
@@ -82,7 +82,7 @@
     </div>
 </nav>
 
-<section id="user-dashboard" class="user-dashboard section">
+<section id="dashboard" class="dashboard section">
     <!-- Hero Section -->
     <section id="home" class="hero-section">
         <div class="hero-overlay"></div>
@@ -351,6 +351,7 @@
 <script src="js/user-script.js"></script>
 
 <script>
+    document.getElementById('dashboard').style.display = 'block';
     function showSection(sectionId) {
         // Hide all sections
         document.querySelectorAll('.section').forEach(sec => sec.style.display = 'none');
@@ -370,7 +371,7 @@
     }
 
     function loadLastSection() {
-        const lastSection = localStorage.getItem('lastSection') || 'user-dashboard';
+        const lastSection = localStorage.getItem('lastSection') || 'dashboard';
         showSection(lastSection);
     }
 

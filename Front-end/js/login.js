@@ -54,6 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log(response.data.accessToken);
 
                 localStorage.removeItem("accessToken");
+                localStorage.removeItem("lastSection");
                 localStorage.setItem("accessToken", response.data.accessToken);
 
                 // Show loading state
