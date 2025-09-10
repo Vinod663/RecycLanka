@@ -13,6 +13,10 @@
     <!-- Custom Styles -->
     <link rel="stylesheet" href="style/admin-style.css">
     <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="style/admin-waste-schedule.css">
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
 <!-- Navigation -->
@@ -30,32 +34,32 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" href="adminDashboard.html">
+                    <a class="nav-link" href="#" onclick="showSection('admin-dashboard')">
                         <i class="fas fa-home me-1"></i>Home
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="admin-waste-schedule.html">
+                    <a class="nav-link" href="#" onclick="showSection('collection-schedule')">
                         <i class="fas fa-calendar-alt me-1"></i>Collection Schedule
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#inventory">
+                    <a class="nav-link" href="#" onclick="showSection('inventory-management')">
                         <i class="fas fa-boxes me-1"></i>Inventory Management
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#statistics">
+                    <a class="nav-link" href="#" onclick="showSection('statistics')">
                         <i class="fas fa-chart-bar me-1"></i>Statistics
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#waste-entry">
+                    <a class="nav-link" href="#" onclick="showSection('waste-entry')">
                         <i class="fas fa-plus-circle me-1"></i>Waste Entry
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#complaints">
+                    <a class="nav-link" href="#" onclick="showSection('complaints')">
                         <i class="fas fa-exclamation-triangle me-1"></i>Complaints
                     </a>
                 </li>
@@ -64,9 +68,9 @@
                         <i class="fas fa-ellipsis-h me-1"></i>More
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#reports"><i class="fas fa-file-alt me-2"></i>Reports</a></li>
-                        <li><a class="dropdown-item" href="#settings"><i class="fas fa-cog me-2"></i>Settings</a></li>
-                        <li><a class="dropdown-item" href="#users"><i class="fas fa-users me-2"></i>User Management</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="showSection('report')"><i class="fas fa-file-alt me-2"></i>Reports</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="showSection('settings')"><i class="fas fa-cog me-2"></i>Settings</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="showSection('user-management')"><i class="fas fa-users me-2"></i>User Management</a></li>
                     </ul>
                 </li>
             </ul>
@@ -91,166 +95,299 @@
     </div>
 </nav>
 
-<!-- Hero Section -->
-<section id="home" class="hero-section">
-    <div class="hero-overlay"></div>
-    <div class="container">
-        <div class="row align-items-center min-vh-100">
-            <div class="col-lg-8">
-                <div class="hero-content">
-                    <div class="hero-badge">
-                        <i class="fas fa-leaf me-2"></i>
-                        Municipal Waste Management System
-                    </div>
-                    <h1 class="hero-title">
-                        Welcome to <span class="brand-color">RecycLanka</span>
-                        <br>Admin Dashboard
-                    </h1>
-                    <p class="hero-description">
-                        Streamline waste collection, enhance recycling efficiency, and build sustainable communities
-                        through our comprehensive digital platform. Monitor real-time operations, track environmental
-                        impact, and drive Sri Lanka towards a circular economy.
-                    </p>
+<section id="admin-dashboard" class="admin-dashboard section">
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="row align-items-center min-vh-100">
+                <div class="col-lg-8">
+                    <div class="hero-content">
+                        <div class="hero-badge">
+                            <i class="fas fa-leaf me-2"></i>
+                            Municipal Waste Management System
+                        </div>
+                        <h1 class="hero-title">
+                            Welcome to <span class="brand-color">RecycLanka</span>
+                            <br>Admin Dashboard
+                        </h1>
+                        <p class="hero-description">
+                            Streamline waste collection, enhance recycling efficiency, and build sustainable communities
+                            through our comprehensive digital platform. Monitor real-time operations, track environmental
+                            impact, and drive Sri Lanka towards a circular economy.
+                        </p>
 
-                    <div class="hero-stats">
-                        <div class="row g-4">
-                            <div class="col-md-3 col-6">
-                                <div class="stat-card">
-                                    <div class="stat-icon">
-                                        <i class="fas fa-recycle"></i>
+                        <div class="hero-stats">
+                            <div class="row g-4">
+                                <div class="col-md-3 col-6">
+                                    <div class="stat-card">
+                                        <div class="stat-icon">
+                                            <i class="fas fa-recycle"></i>
+                                        </div>
+                                        <div class="stat-number" data-count="2847">0</div>
+                                        <div class="stat-label">Tons Recycled</div>
                                     </div>
-                                    <div class="stat-number" data-count="2847">0</div>
-                                    <div class="stat-label">Tons Recycled</div>
                                 </div>
-                            </div>
-                            <div class="col-md-3 col-6">
-                                <div class="stat-card">
-                                    <div class="stat-icon">
-                                        <i class="fas fa-truck"></i>
+                                <div class="col-md-3 col-6">
+                                    <div class="stat-card">
+                                        <div class="stat-icon">
+                                            <i class="fas fa-truck"></i>
+                                        </div>
+                                        <div class="stat-number" data-count="156">0</div>
+                                        <div class="stat-label">Active Routes</div>
                                     </div>
-                                    <div class="stat-number" data-count="156">0</div>
-                                    <div class="stat-label">Active Routes</div>
                                 </div>
-                            </div>
-                            <div class="col-md-3 col-6">
-                                <div class="stat-card">
-                                    <div class="stat-icon">
-                                        <i class="fas fa-users"></i>
+                                <div class="col-md-3 col-6">
+                                    <div class="stat-card">
+                                        <div class="stat-icon">
+                                            <i class="fas fa-users"></i>
+                                        </div>
+                                        <div class="stat-number" data-count="12500">0</div>
+                                        <div class="stat-label">Citizens Served</div>
                                     </div>
-                                    <div class="stat-number" data-count="12500">0</div>
-                                    <div class="stat-label">Citizens Served</div>
                                 </div>
-                            </div>
-                            <div class="col-md-3 col-6">
-                                <div class="stat-card">
-                                    <div class="stat-icon">
-                                        <i class="fas fa-leaf"></i>
+                                <div class="col-md-3 col-6">
+                                    <div class="stat-card">
+                                        <div class="stat-icon">
+                                            <i class="fas fa-leaf"></i>
+                                        </div>
+                                        <div class="stat-number" data-count="89">0</div>
+                                        <div class="stat-label">CO₂ Reduction %</div>
                                     </div>
-                                    <div class="stat-number" data-count="89">0</div>
-                                    <div class="stat-label">CO₂ Reduction %</div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="hero-actions">
-                        <a href="#waste-entry" class="btn btn-primary btn-lg me-3">
-                            <i class="fas fa-plus me-2"></i>New Waste Entry
-                        </a>
-                        <a href="#statistics" class="btn btn-outline-light btn-lg">
-                            <i class="fas fa-chart-line me-2"></i>View Analytics
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4">
-                <div class="hero-image">
-                    <div class="floating-cards">
-                        <div class="card float-card card-1">
-                            <div class="card-body text-center">
-                                <i class="fas fa-recycle  fs-2 mb-2 brand-color"></i>
-                                <h6>Smart Recycling</h6>
-                                <small class="text-muted">AI-powered sorting</small>
-                            </div>
-                        </div>
-                        <div class="card float-card card-2">
-                            <div class="card-body text-center">
-                                <i class="fas fa-route  fs-2 mb-2 brand-color"></i>
-                                <h6>Route Optimization</h6>
-                                <small class="text-muted">Efficient collection</small>
-                            </div>
-                        </div>
-                        <div class="card float-card card-3">
-                            <div class="card-body text-center brand-color">
-                                <i class="fas fa-chart-pie  fs-2 mb-2"></i>
-                                <h6>Real-time Analytics</h6>
-                                <small class="text-muted">Data-driven insights</small>
-                            </div>
+                        <div class="hero-actions">
+                            <a href="#waste-entry" class="btn btn-primary btn-lg me-3">
+                                <i class="fas fa-plus me-2"></i>New Waste Entry
+                            </a>
+                            <a href="#statistics" class="btn btn-outline-light btn-lg">
+                                <i class="fas fa-chart-line me-2"></i>View Analytics
+                            </a>
                         </div>
                     </div>
                 </div>
+
+                <div class="col-lg-4">
+                    <div class="hero-image">
+                        <div class="floating-cards">
+                            <div class="card float-card card-1">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-recycle  fs-2 mb-2 brand-color"></i>
+                                    <h6>Smart Recycling</h6>
+                                    <small class="text-muted">AI-powered sorting</small>
+                                </div>
+                            </div>
+                            <div class="card float-card card-2">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-route  fs-2 mb-2 brand-color"></i>
+                                    <h6>Route Optimization</h6>
+                                    <small class="text-muted">Efficient collection</small>
+                                </div>
+                            </div>
+                            <div class="card float-card card-3">
+                                <div class="card-body text-center brand-color">
+                                    <i class="fas fa-chart-pie  fs-2 mb-2"></i>
+                                    <h6>Real-time Analytics</h6>
+                                    <small class="text-muted">Data-driven insights</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Decorative Elements -->
-    <div class="hero-decorations">
-        <div class="decoration decoration-1">
-            <i class="fas fa-leaf"></i>
+        <!-- Decorative Elements -->
+        <div class="hero-decorations">
+            <div class="decoration decoration-1">
+                <i class="fas fa-leaf"></i>
+            </div>
+            <div class="decoration decoration-2">
+                <i class="fas fa-recycle"></i>
+            </div>
+            <div class="decoration decoration-3">
+                <i class="fas fa-seedling"></i>
+            </div>
         </div>
-        <div class="decoration decoration-2">
-            <i class="fas fa-recycle"></i>
+    </section>
+
+    <!-- Quick Actions Section -->
+    <section class="quick-actions-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="action-card" data-section="collection">
+                        <div class="action-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <h5>Schedule Management</h5>
+                        <p>Manage collection schedules and routes efficiently</p>
+                        <div class="action-badge">24 Active</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="action-card" data-section="inventory">
+                        <div class="action-icon">
+                            <i class="fas fa-warehouse"></i>
+                        </div>
+                        <h5>Inventory Control</h5>
+                        <p>Track waste materials and recycling inventory</p>
+                        <div class="action-badge">85% Full</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="action-card" data-section="complaints">
+                        <div class="action-icon">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <h5>Complaint System</h5>
+                        <p>Handle citizen complaints and feedback</p>
+                        <div class="action-badge alert">3 New</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="action-card" data-section="statistics">
+                        <div class="action-icon">
+                            <i class="fa-solid fa-gauge-simple-high"></i>
+                        </div>
+                        <h5>Performance Analytics</h5>
+                        <p>Monitor system performance and environmental impact</p>
+                        <div class="action-badge success">↗ 12%</div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="decoration decoration-3">
-            <i class="fas fa-seedling"></i>
-        </div>
-    </div>
+    </section>
 </section>
 
-<!-- Quick Actions Section -->
-<section class="quick-actions-section">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="action-card" data-section="collection">
-                    <div class="action-icon">
-                        <i class="fas fa-calendar-check"></i>
-                    </div>
-                    <h5>Schedule Management</h5>
-                    <p>Manage collection schedules and routes efficiently</p>
-                    <div class="action-badge">24 Active</div>
+<section id="collection-schedule" class="section" style="display: none;">
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h1 class="page-title">Collection Schedule Management</h1>
+                    <p class="page-subtitle">
+                        Plan and manage waste collection schedules across municipalities and wards.
+                        Set specific times for degradable, recyclable, and non-recyclable waste collection.
+                    </p>
+                </div>
+                <div class="col-lg-4 d-flex align-items-center justify-content-end">
+                    <button class="btn btn-primary" onclick="generatePDFReport()">
+                        <i class="fas fa-file-pdf me-2"></i>Generate PDF Report
+                    </button>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="action-card" data-section="inventory">
-                    <div class="action-icon">
-                        <i class="fas fa-warehouse"></i>
-                    </div>
-                    <h5>Inventory Control</h5>
-                    <p>Track waste materials and recycling inventory</p>
-                    <div class="action-badge">85% Full</div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container my-5">
+        <!-- Control Panel -->
+        <div class="control-panel">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="municipalSelect" class="form-label">
+                        <i class="fas fa-city me-2"></i>Select Municipality
+                    </label>
+                    <select class="form-select" id="municipalSelect" onchange="loadWards()">
+                        <option value="">Choose a municipality...</option>
+                        <option value="colombo">Colombo Municipal Council</option>
+                        <option value="dehiwala">Dehiwala-Mount Lavinia</option>
+                        <option value="moratuwa">Moratuwa Municipal Council</option>
+                        <option value="kotte">Sri Jayawardenepura Kotte</option>
+                        <option value="maharagama">Maharagama Urban Council</option>
+                        <option value="kesbewa">Kesbewa Urban Council</option>
+                    </select>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="wardSelect" class="form-label">
+                        <i class="fas fa-map-marker-alt me-2"></i>Select Ward
+                    </label>
+                    <select class="form-select" id="wardSelect" disabled>
+                        <option value="check">Select municipality first...</option>
+                        <option value="check">Select municipality first...</option>
+                        <option value="check">Select municipality first...</option>
+                    </select>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="searchWard" class="form-label">
+                        <i class="fas fa-search me-2"></i>Search Wards
+                    </label>
+                    <input type="text" class="form-control" id="searchWard" placeholder="Type to search wards..." oninput="searchWards()">
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="action-card" data-section="complaints">
-                    <div class="action-icon">
-                        <i class="fas fa-headset"></i>
-                    </div>
-                    <h5>Complaint System</h5>
-                    <p>Handle citizen complaints and feedback</p>
-                    <div class="action-badge alert">3 New</div>
+        </div>
+
+        <!-- Schedule Form -->
+        <div class="control-panel" id="scheduleForm" style="display: none;">
+            <h5 class="mb-4">
+                <i class="fas fa-calendar-plus me-2"></i>
+                Set Collection Schedule for <span id="selectedWardName"></span>
+            </h5>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="collectionDate" class="form-label">Collection Date</label>
+                    <input type="date" class="form-control" id="collectionDate">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="wasteType" class="form-label">Waste Type</label>
+                    <select class="form-select" id="wasteType">
+                        <option value="">Select waste type...</option>
+                        <option value="degradable">Degradable Waste</option>
+                        <option value="recyclable">Recyclable Waste</option>
+                        <option value="non-recyclable">Non-Recyclable Waste</option>
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="startTime" class="form-label">Start Time</label>
+                    <input type="time" class="form-control" id="startTime">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="endTime" class="form-label">End Time</label>
+                    <input type="time" class="form-control" id="endTime">
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-primary" onclick="addSchedule()">
+                        <i class="fas fa-plus me-2"></i>Add Schedule
+                    </button>
+                    <button class="btn btn-outline-primary ms-2" onclick="clearForm()">
+                        <i class="fas fa-times me-2"></i>Clear Form
+                    </button>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="action-card" data-section="statistics">
-                    <div class="action-icon">
-                        <i class="fa-solid fa-gauge-simple-high"></i>
-                    </div>
-                    <h5>Performance Analytics</h5>
-                    <p>Monitor system performance and environmental impact</p>
-                    <div class="action-badge success">↗ 12%</div>
+        </div>
+
+        <!-- Current Schedules -->
+        <div class="schedule-table" id="schedulesContainer" style="display: none;">
+            <div class="p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="mb-0">
+                        <i class="fas fa-list me-2"></i>
+                        Collection Schedules for <span id="currentMunicipalName"></span>
+                    </h5>
+                    <span class="badge bg-primary" id="scheduleCount">0 schedules</span>
                 </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table" id="schedulesTable">
+                    <thead>
+                    <tr>
+                        <th>Ward</th>
+                        <th>Date</th>
+                        <th>Waste Type</th>
+                        <th>Time</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody id="schedulesTableBody">
+                    <!-- Dynamic content -->
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -350,5 +487,34 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Custom Script -->
 <script src="js/admin-script.js"></script>
+<script src="js/admin-waste-schedule.js"></script>
+
+<script>
+    function showSection(sectionId) {
+        // Hide all sections
+        document.querySelectorAll('.section').forEach(sec => sec.style.display = 'none');
+        document.getElementById(sectionId).style.display = 'block';
+
+        // Remove active class from all nav-links
+        document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+
+        // Add active class to the clicked link
+        const clickedLink = document.querySelector(`a[onclick="showSection('${sectionId}')"]`);
+        if (clickedLink) {
+            clickedLink.classList.add('active');
+        }
+
+        // Save last section
+        localStorage.setItem('lastSection', sectionId);
+    }
+
+    function loadLastSection() {
+        const lastSection = localStorage.getItem('lastSection') || 'admin-dashboard';
+        showSection(lastSection);
+    }
+
+    window.onload = loadLastSection;
+</script>
+
 </body>
 </html>

@@ -500,14 +500,14 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('collectionDate').min = today;
 
     // Welcome message
-    setTimeout(() => {
+    /*setTimeout(() => {
         showNotification('Collection Schedule Management System Loaded Successfully!', 'success', 3000);
-    }, 1000);
+    }, 1000);*/
 });
 
 // Add animation styles
-const style = document.createElement('style');
-style.textContent = `
+const animationStyle  = document.createElement('style');
+animationStyle .textContent = `
             @keyframes slideInRight {
                 from {
                     transform: translateX(100%);

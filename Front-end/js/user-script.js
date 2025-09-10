@@ -1,6 +1,15 @@
 // Admin Dashboard JavaScript
 
 document.addEventListener('DOMContentLoaded', function() {
+    const token = localStorage.getItem("accessToken");
+
+    if (!token) {
+        alert("Please login first!");
+        window.location.href = "signIn.html";
+        return;
+    }
+
+
     // Initialize all components
     initNavigation();
     initCounterAnimations();
