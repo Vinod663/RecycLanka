@@ -13,6 +13,7 @@
     <!-- Custom Styles -->
     <link rel="stylesheet" href="style/admin-style.css">
     <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="style/user-waste-schedule.css">
 </head>
 <body>
 <!-- Navigation -->
@@ -249,11 +250,303 @@
     </section>
 </section>
 
-<section id="collection-schedule" class="section" style="display: none">
-    <h1>Hello World</h1>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis distinctio est facilis hic, id impedit laborum laudantium minus nam neque pariatur porro quae quia quis repellat, sapiente, sit veniam voluptate?</p>
-</section>
+<section id="collection-schedule" class="section schedule-section" style="display: none; padding: 5rem 0; background: var(--gray-50);">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <div class="hero-badge d-inline-flex align-items-center mb-3">
+                <i class="fas fa-calendar-week me-2"></i>
+                Weekly Collection Schedule
+            </div>
+            <h2 class="section-title">Your Weekly Waste Calendar</h2>
+            <p class="section-description">
+                View your area's waste collection pattern by day of the week. Know exactly when to put out your bins for organic, recyclable, and general waste collection.
+            </p>
+        </div>
 
+        <!-- Location Selector Card -->
+        <div class="location-card mb-4">
+            <div class="location-header">
+                <h3 class="location-title">
+                    <i class="fas fa-map-marker-alt me-2"></i>
+                    Select Your Location
+                </h3>
+                <p class="location-subtitle">Choose your municipal area and ward to view collection days</p>
+            </div>
+
+            <div class="row g-3">
+                <div class="col-lg-5 col-md-6">
+                    <div class="form-floating">
+                        <select class="form-select" id="municipal" onchange="loadWards()"  required >
+                            <option value="" disabled selected>Select Municipal</option>
+                            <option value="Colombo">Colombo Municipal Council</option>
+                            <option value="Dehiwala-Mount Lavinia">Dehiwala-Mount Lavinia Municipal Council</option>
+                            <option value="Sri Jayawardenepura Kotte">Sri Jayawardenepura Kotte Municipal Council</option>
+                            <option value="Kaduwela">Kaduwela Municipal Council</option>
+                            <option value="Moratuwa">Moratuwa Municipal Council</option>
+                            <option value="Negombo">Negombo Municipal Council</option>
+                            <option value="Gampaha">Gampaha Municipal Council</option>
+                            <option value="Kurunegala">Kurunegala Municipal Council</option>
+                            <option value="Kandy">Kandy Municipal Council</option>
+                            <option value="Matale">Matale Municipal Council</option>
+                            <option value="Dambulla">Dambulla Municipal Council</option>
+                            <option value="Nuwara Eliya">Nuwara Eliya Municipal Council</option>
+                            <option value="Badulla">Badulla Municipal Council</option>
+                            <option value="Bandarawela">Bandarawela Municipal Council</option>
+                            <option value="Galle">Galle Municipal Council</option>
+                            <option value="Matara">Matara Municipal Council</option>
+                            <option value="Hambantota">Hambantota Municipal Council</option>
+                            <option value="Ratnapura">Ratnapura Municipal Council</option>
+                            <option value="Anuradhapura">Anuradhapura Municipal Council</option>
+                            <option value="Polonnaruwa">Polonnaruwa Municipal Council</option>
+                            <option value="Jaffna">Jaffna Municipal Council</option>
+                            <option value="Batticaloa">Batticaloa Municipal Council</option>
+                            <option value="Kalmunai">Kalmunai Municipal Council</option>
+                            <option value="Akkaraipattu">Akkaraipattu Municipal Council</option>
+                        </select>
+                        <label for="municipal">Municipal Council</label>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-md-6">
+                    <div class="form-floating">
+                        <select class="form-select" id="ward" required disabled>
+                            <option value="check" disabled selected>Select Municipal First</option>
+                        </select>
+                        <label for="ward">Ward</label>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-12">
+                    <button type="button" class="btn btn-primary w-100 h-100" onclick="loadWeeklySchedule()" id="loadScheduleBtn">
+                        <i class="fas fa-search me-2"></i>View Schedule
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Weekly Schedule Display -->
+        <div class="weekly-schedule-container" id="weeklyScheduleContainer" style="display: none;">
+            <div class="schedule-header">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <h3 class="schedule-title">Weekly Collection Calendar</h3>
+                        <p class="schedule-location" id="scheduleLocation">Your Collection Schedule</p>
+                    </div>
+                    <div class="schedule-legend">
+                        <div class="legend-item">
+                            <span class="legend-dot organic"></span>
+                            <small>Organic Waste</small>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-dot recyclable"></span>
+                            <small>Recyclable</small>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-dot general"></span>
+                            <small>General Waste</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weekly Calendar Grid -->
+            <div class="weekly-calendar">
+                <div class="day-card" data-day="monday">
+                    <div class="day-header">
+                        <h4 class="day-name">Monday</h4>
+                        <span class="day-date" id="mondayDate"></span>
+                    </div>
+                    <div class="day-collections" id="mondayCollections">
+                        <div class="no-collection">
+                            <i class="fas fa-calendar-times"></i>
+                            <span>No collection</span>
+                        </div>
+                    </div>
+                    <div class="day-reminder">
+                        <button class="reminder-btn" onclick="toggleDayReminder('monday')">
+                            <i class="fas fa-bell"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="day-card" data-day="tuesday">
+                    <div class="day-header">
+                        <h4 class="day-name">Tuesday</h4>
+                        <span class="day-date" id="tuesdayDate"></span>
+                    </div>
+                    <div class="day-collections" id="tuesdayCollections">
+                        <div class="no-collection">
+                            <i class="fas fa-calendar-times"></i>
+                            <span>No collection</span>
+                        </div>
+                    </div>
+                    <div class="day-reminder">
+                        <button class="reminder-btn" onclick="toggleDayReminder('tuesday')">
+                            <i class="fas fa-bell"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="day-card" data-day="wednesday">
+                    <div class="day-header">
+                        <h4 class="day-name">Wednesday</h4>
+                        <span class="day-date" id="wednesdayDate"></span>
+                    </div>
+                    <div class="day-collections" id="wednesdayCollections">
+                        <div class="no-collection">
+                            <i class="fas fa-calendar-times"></i>
+                            <span>No collection</span>
+                        </div>
+                    </div>
+                    <div class="day-reminder">
+                        <button class="reminder-btn" onclick="toggleDayReminder('wednesday')">
+                            <i class="fas fa-bell"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="day-card" data-day="thursday">
+                    <div class="day-header">
+                        <h4 class="day-name">Thursday</h4>
+                        <span class="day-date" id="thursdayDate"></span>
+                    </div>
+                    <div class="day-collections" id="thursdayCollections">
+                        <div class="no-collection">
+                            <i class="fas fa-calendar-times"></i>
+                            <span>No collection</span>
+                        </div>
+                    </div>
+                    <div class="day-reminder">
+                        <button class="reminder-btn" onclick="toggleDayReminder('thursday')">
+                            <i class="fas fa-bell"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="day-card" data-day="friday">
+                    <div class="day-header">
+                        <h4 class="day-name">Friday</h4>
+                        <span class="day-date" id="fridayDate"></span>
+                    </div>
+                    <div class="day-collections" id="fridayCollections">
+                        <div class="no-collection">
+                            <i class="fas fa-calendar-times"></i>
+                            <span>No collection</span>
+                        </div>
+                    </div>
+                    <div class="day-reminder">
+                        <button class="reminder-btn" onclick="toggleDayReminder('friday')">
+                            <i class="fas fa-bell"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="day-card" data-day="saturday">
+                    <div class="day-header">
+                        <h4 class="day-name">Saturday</h4>
+                        <span class="day-date" id="saturdayDate"></span>
+                    </div>
+                    <div class="day-collections" id="saturdayCollections">
+                        <div class="no-collection">
+                            <i class="fas fa-calendar-times"></i>
+                            <span>No collection</span>
+                        </div>
+                    </div>
+                    <div class="day-reminder">
+                        <button class="reminder-btn" onclick="toggleDayReminder('saturday')">
+                            <i class="fas fa-bell"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="day-card" data-day="sunday">
+                    <div class="day-header">
+                        <h4 class="day-name">Sunday</h4>
+                        <span class="day-date" id="sundayDate"></span>
+                    </div>
+                    <div class="day-collections" id="sundayCollections">
+                        <div class="no-collection">
+                            <i class="fas fa-calendar-times"></i>
+                            <span>No collection</span>
+                        </div>
+                    </div>
+                    <div class="day-reminder">
+                        <button class="reminder-btn" onclick="toggleDayReminder('sunday')">
+                            <i class="fas fa-bell"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Collection Guidelines -->
+        <div class="guidelines-section" id="guidelinesSection" style="display: none;">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="guideline-card organic-guide">
+                        <div class="guide-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <h5>Organic Waste</h5>
+                        <p>Food scraps, yard trimmings, and biodegradable materials.</p>
+                        <div class="guide-time">Best placed out: <strong>Evening before</strong></div>
+                        <div class="guide-tip">
+                            <i class="fas fa-lightbulb me-2"></i>
+                            Use biodegradable bags
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="guideline-card recyclable-guide">
+                        <div class="guide-icon">
+                            <i class="fas fa-recycle"></i>
+                        </div>
+                        <h5>Recyclable Waste</h5>
+                        <p>Paper, plastic, glass, and metal items that can be recycled.</p>
+                        <div class="guide-time">Best placed out: <strong>Early morning</strong></div>
+                        <div class="guide-tip">
+                            <i class="fas fa-lightbulb me-2"></i>
+                            Clean containers first
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="guideline-card general-guide">
+                        <div class="guide-icon">
+                            <i class="fas fa-trash-alt"></i>
+                        </div>
+                        <h5>General Waste</h5>
+                        <p>Non-recyclable items and household waste.</p>
+                        <div class="guide-time">Best placed out: <strong>Morning of collection</strong></div>
+                        <div class="guide-tip">
+                            <i class="fas fa-lightbulb me-2"></i>
+                            Secure bags properly
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="schedule-actions text-center" id="scheduleActions" style="display: none;">
+            <button class="btn btn-outline-primary me-3" onclick="downloadSchedule()">
+                <i class="fas fa-download me-2"></i>Download Schedule
+            </button>
+            <button class="btn btn-primary" onclick="setAllReminders()">
+                <i class="fas fa-bell me-2"></i>Enable All Reminders
+            </button>
+        </div>
+
+        <!-- Today's Collection Alert -->
+        <div class="todays-collection" id="todaysCollection" style="display: none;">
+            <div class="alert alert-success d-flex align-items-center">
+                <i class="fas fa-truck fa-2x me-3"></i>
+                <div>
+                    <h5 class="alert-heading mb-1">Collection Today!</h5>
+                    <p class="mb-0">Don't forget to put out your <span id="todayWasteType"></span> waste bins.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 <!-- Footer -->
 <footer class="admin-footer">
