@@ -1,5 +1,5 @@
 // Sample data structure
-const municipalData = {
+/*const municipalData = {
     colombo: {
         name: "Colombo Municipal Council",
         wards: [
@@ -50,7 +50,7 @@ const municipalData = {
             "Thalangama", "Malabe", "Kottikawatte"
         ]
     }
-};
+};*/
 
 // Schedule storage
 let schedules = JSON.parse(localStorage.getItem('wasteSchedules') || '[]');
@@ -58,6 +58,70 @@ let editingSchedule = null;
 
 // Load wards when municipality is selected
 function loadWards() {
+    let municipalName = $("#municipalSelect").val();
+    let $wardSelect = $("#wardSelect");
+    let $schedulesContainer = $("#schedulesContainer");///table container
+
+    if (!municipalName) {
+        $wardSelect.prop("disabled", true).html('<option value="">Select municipality first...</option>');
+        $schedulesContainer.hide();//////table hide
+        return;
+    }
+
+    // Clear current options & show loading
+    $wardSelect.prop("disabled", true).html('<option value="">Loading wards...</option>');
+
+
+    // Show schedule table and update municipal name
+    $schedulesContainer.show();
+    $("#currentMunicipalName").text(municipalName);/////table show
+
+
+    // Get token from localStorage
+    let token = localStorage.getItem("accessToken");
+
+    // AJAX call with Authorization header
+    $.ajax({
+        url: "http://localhost:8080/api/v1/ward/by-municipal/" + encodeURIComponent(municipalName),
+        method: "GET",
+        headers: {
+            "Authorization": "Bearer " + token
+        },
+        success: function(response) {
+            if (response.status === 200 && response.data.length > 0) {
+                $wardSelect.empty();
+                $wardSelect.append('<option value="" disabled selected>Select Ward</option>');
+
+                $.each(response.data, function(index, ward) {
+                    $wardSelect.append('<option value="' + ward.name + '">' + ward.name + '</option>');
+                });
+
+                $wardSelect.prop("disabled", false);
+            } else {
+                $wardSelect.html('<option value="">No wards found</option>');
+            }
+        },
+        error: function(xhr) {
+            if (xhr.status === 401) {
+                $wardSelect.html('<option value="">Unauthorized - Please login again</option>');
+            } else {
+                $wardSelect.html('<option value="">Error loading wards</option>');
+            }
+            $wardSelect.prop("disabled", true);
+        }
+    });
+}
+
+
+function searchWards() {
+    let searchValue = $("#searchWard").val().toLowerCase();
+    $("#wardSelect option").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(searchValue) > -1 || $(this).val() === "");
+    });
+}
+
+
+/*function loadWards() {
     const municipalSelect = document.getElementById('municipalSelect');
     const wardSelect = document.getElementById('wardSelect');
     const scheduleForm = document.getElementById('scheduleForm');
@@ -89,9 +153,9 @@ function loadWards() {
         scheduleForm.style.display = 'none';
         schedulesContainer.style.display = 'none';
     }
-}
+}*/
 
-// Handle ward selection
+// Handle ward Schedule selection
 document.getElementById('wardSelect').addEventListener('change', function() {
     const wardSelect = document.getElementById('wardSelect');
     const scheduleForm = document.getElementById('scheduleForm');
@@ -101,15 +165,15 @@ document.getElementById('wardSelect').addEventListener('change', function() {
         scheduleForm.style.display = 'block';
 
         // Set minimum date to today
-        const today = new Date().toISOString().split('T')[0];
-        document.getElementById('collectionDate').min = today;
+        /*const today = new Date().toISOString().split('T')[0];
+        document.getElementById('collectionDate').min = today;*/
     } else {
         scheduleForm.style.display = 'none';
     }
 });
 
 // Search wards functionality
-function searchWards() {
+/*function searchWards() {
     const searchTerm = document.getElementById('searchWard').value.toLowerCase();
     const wardSelect = document.getElementById('wardSelect');
     const municipalSelect = document.getElementById('municipalSelect');
@@ -136,7 +200,7 @@ function searchWards() {
     if (filteredWards.length === 0 && searchTerm) {
         wardSelect.innerHTML = '<option value="">No wards found...</option>';
     }
-}
+}*/
 
 // Add new schedule
 function addSchedule() {
@@ -494,16 +558,16 @@ function showNotification(message, type = 'info', duration = 4000) {
 }
 
 // Initialize page
-document.addEventListener('DOMContentLoaded', function() {
+/*document.addEventListener('DOMContentLoaded', function() {
     // Set minimum date to today for date input
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('collectionDate').min = today;
 
     // Welcome message
-    /*setTimeout(() => {
+    /!*setTimeout(() => {
         showNotification('Collection Schedule Management System Loaded Successfully!', 'success', 3000);
-    }, 1000);*/
-});
+    }, 1000);*!/
+});*/
 
 // Add animation styles
 const animationStyle  = document.createElement('style');

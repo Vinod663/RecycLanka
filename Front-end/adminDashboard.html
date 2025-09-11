@@ -10,6 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <!-- Custom Styles -->
     <link rel="stylesheet" href="style/admin-style.css">
     <link rel="stylesheet" href="style/style.css">
@@ -293,6 +294,7 @@
                         <i class="fas fa-city me-2"></i>Select Municipality
                     </label>
                     <select class="form-select" id="municipalSelect" onchange="loadWards()">
+                        <option value="" disabled selected>Select Municipal</option>
                         <option value="Colombo">Colombo Municipal Council</option>
                         <option value="Dehiwala-Mount Lavinia">Dehiwala-Mount Lavinia Municipal Council</option>
                         <option value="Sri Jayawardenepura Kotte">Sri Jayawardenepura Kotte Municipal Council</option>
@@ -324,9 +326,7 @@
                     <label for="wardSelect" class="form-label">
                         <i class="fas fa-map-marker-alt me-2"></i>Select Ward
                     </label>
-                    <select class="form-select" id="wardSelect" disabled>
-                        <option value="check">Select municipality first...</option>
-                        <option value="check">Select municipality first...</option>
+                    <select class="form-select " id="wardSelect"  disabled>
                         <option value="check">Select municipality first...</option>
                     </select>
                 </div>
@@ -340,15 +340,25 @@
         </div>
 
         <!-- Schedule Form -->
-        <div class="control-panel" id="scheduleForm" style="display: none;">
+        <div class="control-panel" id="scheduleForm" style="display:none;">
             <h5 class="mb-4">
                 <i class="fas fa-calendar-plus me-2"></i>
                 Set Collection Schedule for <span id="selectedWardName"></span>
             </h5>
             <div class="row">
+                <!-- Day of Week -->
                 <div class="col-md-6 mb-3">
-                    <label for="collectionDate" class="form-label">Collection Date</label>
-                    <input type="date" class="form-control" id="collectionDate">
+                    <label for="collectionDay" class="form-label">Collection Day</label>
+                    <select class="form-select" id="collectionDay">
+                        <option value="">Select day...</option>
+                        <option value="Monday">Monday</option>
+                        <option value="Tuesday">Tuesday</option>
+                        <option value="Wednesday">Wednesday</option>
+                        <option value="Thursday">Thursday</option>
+                        <option value="Friday">Friday</option>
+                        <option value="Saturday">Saturday</option>
+                        <option value="Sunday">Sunday</option>
+                    </select>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="wasteType" class="form-label">Waste Type</label>
@@ -395,7 +405,7 @@
                     <thead>
                     <tr>
                         <th>Ward</th>
-                        <th>Date</th>
+                        <th>Day</th>
                         <th>Waste Type</th>
                         <th>Time</th>
                         <th>Status</th>
@@ -501,8 +511,10 @@
     </div>
 </footer>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 <!-- Custom Script -->
 <script src="js/admin-script.js"></script>
 <script src="js/admin-waste-schedule.js"></script>
