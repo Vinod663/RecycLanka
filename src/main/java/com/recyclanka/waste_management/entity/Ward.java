@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -20,4 +22,9 @@ public class Ward {
     @ManyToOne
     @JoinColumn(name = "municipal_id", nullable = false)
     private Municipal municipal;
+
+    @OneToMany(mappedBy = "ward", cascade = CascadeType.ALL)
+    private List<CollectionSchedule> collectionSchedules;
+
+
 }

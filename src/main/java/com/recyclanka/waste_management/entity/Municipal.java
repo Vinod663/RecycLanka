@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -18,4 +20,8 @@ public class Municipal {
     private long id;
 
     private String name;
+
+    @OneToMany(mappedBy = "municipal", cascade = CascadeType.ALL)
+    private List<CollectionSchedule> collectionSchedules;
+
 }

@@ -350,32 +350,37 @@
                 <div class="col-md-6 mb-3">
                     <label for="collectionDay" class="form-label">Collection Day</label>
                     <select class="form-select" id="collectionDay">
-                        <option value="">Select day...</option>
-                        <option value="Monday">Monday</option>
-                        <option value="Tuesday">Tuesday</option>
-                        <option value="Wednesday">Wednesday</option>
-                        <option value="Thursday">Thursday</option>
-                        <option value="Friday">Friday</option>
-                        <option value="Saturday">Saturday</option>
-                        <option value="Sunday">Sunday</option>
+                        <option value="" disabled selected>Select day...</option>
+                        <option value="MONDAY">Monday</option>
+                        <option value="TUESDAY">Tuesday</option>
+                        <option value="WEDNESDAY">Wednesday</option>
+                        <option value="THURSDAY">Thursday</option>
+                        <option value="FRIDAY">Friday</option>
+                        <option value="SATURDAY">Saturday</option>
+                        <option value="SUNDAY">Sunday</option>
                     </select>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="wasteType" class="form-label">Waste Type</label>
                     <select class="form-select" id="wasteType">
-                        <option value="">Select waste type...</option>
-                        <option value="degradable">Degradable Waste</option>
-                        <option value="recyclable">Recyclable Waste</option>
-                        <option value="non-recyclable">Non-Recyclable Waste</option>
+                        <option value="" disabled selected>Select waste type...</option>
+                        <option value="ORGANIC">Organic Waste</option>
+                        <option value="RECYCLABLE">Recyclable Waste</option>
+                        <option value="GENERAL">General Waste</option>
                     </select>
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label for="startTime" class="form-label">Start Time</label>
+                    <label for="startTime" class="form-label">Time</label>
                     <input type="time" class="form-control" id="startTime">
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label for="endTime" class="form-label">End Time</label>
-                    <input type="time" class="form-control" id="endTime">
+                    <label for="status" class="form-label">Status</label>
+                    <select class="form-select" id="status">
+                        <option value="" disabled selected>Select status...</option>
+                        <option value="ACTIVE">Active</option>
+                        <option value="INACTIVE">Inactive</option>
+                        <option value="CANCELLED">Cancelled</option>
+                    </select>
                 </div>
                 <div class="col-12">
                     <button class="btn btn-primary" onclick="addSchedule()">
