@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="style/admin-style.css">
     <link rel="stylesheet" href="style/style.css">
     <link rel="stylesheet" href="style/user-waste-schedule.css">
+    <link rel="stylesheet" href="style/userComplaint.css">
 </head>
 <body>
 <!-- Navigation -->
@@ -42,7 +43,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="#" onclick="showSection('complaints')">
                         <i class="fas fa-exclamation-triangle me-1"></i>Complaints
                     </a>
                 </li>
@@ -250,6 +251,8 @@
     </section>
 </section>
 
+
+<!--Collection Schedule-->
 <section id="collection-schedule" class="section schedule-section" style="display: none; padding: 5rem 0; background: var(--gray-50);">
     <div class="container">
         <div class="section-header text-center mb-5">
@@ -547,6 +550,416 @@
         </div>
     </div>
 </section>
+
+
+<!--Complaints Section-->
+<!-- Complaints Section -->
+<section id="complaints" class="section complaints-section" style="display: none; padding: 5rem 0; background: var(--gray-50);">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <div class="hero-badge d-inline-flex align-items-center mb-3">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                Submit Complaint
+            </div>
+            <h2 class="section-title">Report an Issue</h2>
+            <p class="section-description">
+                Help us improve our waste management services by reporting any issues or concerns you may have.
+                We're committed to resolving all complaints within 24-48 hours.
+            </p>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="row mb-5">
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="stat-card-small">
+                    <div class="stat-icon-small">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number-small">24hrs</div>
+                        <div class="stat-label-small">Avg Response Time</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="stat-card-small">
+                    <div class="stat-icon-small">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number-small">94%</div>
+                        <div class="stat-label-small">Resolution Rate</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="stat-card-small">
+                    <div class="stat-icon-small">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number-small">1,247</div>
+                        <div class="stat-label-small">Complaints Resolved</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="stat-card-small">
+                    <div class="stat-icon-small">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number-small">4.8/5</div>
+                        <div class="stat-label-small">Satisfaction Score</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Complaint Form -->
+            <div class="col-lg-8 mb-4">
+                <div class="complaint-form-card">
+                    <div class="form-header">
+                        <h3 class="form-title">
+                            <i class="fas fa-edit me-2"></i>
+                            Submit Your Complaint
+                        </h3>
+                        <p class="form-subtitle">Please provide detailed information about your issue to help us resolve it quickly</p>
+                    </div>
+
+                    <form id="complaintForm" class="complaint-form">
+                        <!-- Location Selection -->
+                        <div class="form-section">
+                            <h4 class="section-title">
+                                <i class="fas fa-map-marker-alt me-2"></i>
+                                Location Details
+                            </h4>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <select class="form-select" id="complaintMunicipal" required onchange="loadComplaintWards()">
+                                            <option value="" disabled selected>Select Municipal</option>
+                                            <option value="Colombo">Colombo Municipal Council</option>
+                                            <option value="Dehiwala-Mount Lavinia">Dehiwala-Mount Lavinia Municipal Council</option>
+                                            <option value="Sri Jayawardenepura Kotte">Sri Jayawardenepura Kotte Municipal Council</option>
+                                            <option value="Kaduwela">Kaduwela Municipal Council</option>
+                                            <option value="Moratuwa">Moratuwa Municipal Council</option>
+                                            <option value="Negombo">Negombo Municipal Council</option>
+                                            <option value="Gampaha">Gampaha Municipal Council</option>
+                                            <option value="Kurunegala">Kurunegala Municipal Council</option>
+                                            <option value="Kandy">Kandy Municipal Council</option>
+                                            <option value="Matale">Matale Municipal Council</option>
+                                            <option value="Dambulla">Dambulla Municipal Council</option>
+                                            <option value="Nuwara Eliya">Nuwara Eliya Municipal Council</option>
+                                            <option value="Badulla">Badulla Municipal Council</option>
+                                            <option value="Bandarawela">Bandarawela Municipal Council</option>
+                                            <option value="Galle">Galle Municipal Council</option>
+                                            <option value="Matara">Matara Municipal Council</option>
+                                            <option value="Hambantota">Hambantota Municipal Council</option>
+                                            <option value="Ratnapura">Ratnapura Municipal Council</option>
+                                            <option value="Anuradhapura">Anuradhapura Municipal Council</option>
+                                            <option value="Polonnaruwa">Polonnaruwa Municipal Council</option>
+                                            <option value="Jaffna">Jaffna Municipal Council</option>
+                                            <option value="Batticaloa">Batticaloa Municipal Council</option>
+                                            <option value="Kalmunai">Kalmunai Municipal Council</option>
+                                            <option value="Akkaraipattu">Akkaraipattu Municipal Council</option>
+                                        </select>
+                                        <label for="complaintMunicipal">Municipal Council *</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <select class="form-select" id="complaintWard" required disabled>
+                                            <option value="" disabled selected>Select Municipal First</option>
+                                        </select>
+                                        <label for="complaintWard">Ward *</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Complaint Type -->
+                        <div class="form-section">
+                            <h4 class="section-title">
+                                <i class="fas fa-tags me-2"></i>
+                                Complaint Category
+                            </h4>
+                            <div class="complaint-types">
+                                <label class="complaint-type-card" for="complaint-missed-collection">
+                                    <input type="radio" name="complaintType" value="missed-collection" id="complaint-missed-collection" required>
+                                    <div class="complaint-type-content">
+                                        <div class="type-icon">
+                                            <i class="fas fa-calendar-times"></i>
+                                        </div>
+                                        <h5>Missed Collection</h5>
+                                        <p>Waste not collected on scheduled day</p>
+                                    </div>
+                                </label>
+                                <label class="complaint-type-card" for="complaint-damaged-bin">
+                                    <input type="radio" name="complaintType" value="damaged-bin" id="complaint-damaged-bin" required>
+                                    <div class="complaint-type-content">
+                                        <div class="type-icon">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </div>
+                                        <h5>Damaged Bin</h5>
+                                        <p>Broken or damaged waste bins</p>
+                                    </div>
+                                </label>
+                                <label class="complaint-type-card" for="complaint-spillage">
+                                    <input type="radio" name="complaintType" value="spillage" id="complaint-spillage" required>
+                                    <div class="complaint-type-content">
+                                        <div class="type-icon">
+                                            <i class="fas fa-exclamation-triangle"></i>
+                                        </div>
+                                        <h5>Waste Spillage</h5>
+                                        <p>Waste spilled during collection</p>
+                                    </div>
+                                </label>
+                                <label class="complaint-type-card" for="complaint-schedule-issue">
+                                    <input type="radio" name="complaintType" value="schedule-issue" id="complaint-schedule-issue" required>
+                                    <div class="complaint-type-content">
+                                        <div class="type-icon">
+                                            <i class="fas fa-clock"></i>
+                                        </div>
+                                        <h5>Schedule Issue</h5>
+                                        <p>Incorrect collection timing</p>
+                                    </div>
+                                </label>
+                                <label class="complaint-type-card" for="complaint-quality-issue">
+                                    <input type="radio" name="complaintType" value="quality-issue" id="complaint-quality-issue" required>
+                                    <div class="complaint-type-content">
+                                        <div class="type-icon">
+                                            <i class="fas fa-thumbs-down"></i>
+                                        </div>
+                                        <h5>Service Quality</h5>
+                                        <p>Poor service quality concerns</p>
+                                    </div>
+                                </label>
+                                <label class="complaint-type-card" for="complaint-other">
+                                    <input type="radio" name="complaintType" value="other" id="complaint-other" required>
+                                    <div class="complaint-type-content">
+                                        <div class="type-icon">
+                                            <i class="fas fa-ellipsis-h"></i>
+                                        </div>
+                                        <h5>Other</h5>
+                                        <p>Other issues not listed above</p>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Priority Level -->
+                        <div class="form-section">
+                            <h4 class="section-title">
+                                <i class="fas fa-flag me-2"></i>
+                                Priority Level
+                            </h4>
+                            <div class="priority-levels">
+                                <label class="priority-card" for="priority-low">
+                                    <input type="radio" name="priority" value="low" id="priority-low" required>
+                                    <div class="priority-content low">
+                                        <div class="priority-icon">
+                                            <i class="fas fa-flag"></i>
+                                        </div>
+                                        <h6>Low</h6>
+                                        <small>Non-urgent issues</small>
+                                    </div>
+                                </label>
+                                <label class="priority-card" for="priority-medium">
+                                    <input type="radio" name="priority" value="medium" id="priority-medium" required>
+                                    <div class="priority-content medium">
+                                        <div class="priority-icon">
+                                            <i class="fas fa-flag"></i>
+                                        </div>
+                                        <h6>Medium</h6>
+                                        <small>Moderate concerns</small>
+                                    </div>
+                                </label>
+                                <label class="priority-card" for="priority-high">
+                                    <input type="radio" name="priority" value="high" id="priority-high" required>
+                                    <div class="priority-content high">
+                                        <div class="priority-icon">
+                                            <i class="fas fa-flag"></i>
+                                        </div>
+                                        <h6>High</h6>
+                                        <small>Urgent attention needed</small>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="form-section">
+                            <h4 class="section-title">
+                                <i class="fas fa-file-alt me-2"></i>
+                                Complaint Description
+                            </h4>
+                            <div class="form-floating">
+                                <textarea class="form-control" id="complaintDescription" style="height: 120px" placeholder="Describe your complaint in detail..." required></textarea>
+                                <label for="complaintDescription">Please describe your complaint in detail *</label>
+                            </div>
+                            <div class="character-count">
+                                <span id="charCount">0</span>/500 characters
+                            </div>
+                        </div>
+
+                        <!-- Contact Information -->
+                        <div class="form-section">
+                            <h4 class="section-title">
+                                <i class="fas fa-phone me-2"></i>
+                                Contact Information
+                            </h4>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="complaintName" placeholder="Your Name" required>
+                                        <label for="complaintName">Your Name *</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="tel" class="form-control" id="complaintPhone" placeholder="Phone Number" required>
+                                        <label for="complaintPhone">Phone Number *</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-floating">
+                                        <input type="email" class="form-control" id="complaintEmail" placeholder="Email Address">
+                                        <label for="complaintEmail">Email Address (Optional)</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-submit" id="submitComplaintBtn">
+                                <span class="btn-text">
+                                    <i class="fas fa-paper-plane me-2"></i>
+                                    Submit Complaint
+                                </span>
+                                <span class="btn-spinner" style="display: none;">
+                                    <i class="fas fa-spinner fa-spin me-2"></i>
+                                    Submitting...
+                                </span>
+                            </button>
+                            <button type="reset" class="btn btn-secondary">
+                                <i class="fas fa-undo me-2"></i>
+                                Reset Form
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Help & Information Sidebar -->
+            <div class="col-lg-4">
+                <div class="help-sidebar">
+                    <!-- Contact Information -->
+                    <div class="help-card">
+                        <div class="help-header">
+                            <i class="fas fa-headset"></i>
+                            <h4>Need Immediate Help?</h4>
+                        </div>
+                        <div class="help-content">
+                            <div class="contact-item">
+                                <i class="fas fa-phone"></i>
+                                <div>
+                                    <strong>Hotline</strong>
+                                    <p>+94 11 234 5678</p>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <div>
+                                    <strong>Email Support</strong>
+                                    <p>complaints@recyclanka.lk</p>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-clock"></i>
+                                <div>
+                                    <strong>Operating Hours</strong>
+                                    <p>Mon-Fri: 8:00 AM - 6:00 PM<br>Sat: 8:00 AM - 2:00 PM</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ -->
+                    <div class="help-card">
+                        <div class="help-header">
+                            <i class="fas fa-question-circle"></i>
+                            <h4>Common Issues</h4>
+                        </div>
+                        <div class="help-content">
+                            <div class="faq-item">
+                                <h6>What if my waste wasn't collected?</h6>
+                                <p>Submit a "Missed Collection" complaint with your scheduled collection day and we'll arrange a pickup within 24 hours.</p>
+                            </div>
+                            <div class="faq-item">
+                                <h6>How do I report a damaged bin?</h6>
+                                <p>Select "Damaged Bin" category and describe the damage. We'll arrange a replacement within 2-3 business days.</p>
+                            </div>
+                            <div class="faq-item">
+                                <h6>Can I track my complaint?</h6>
+                                <p>Yes! You'll receive a complaint ID via SMS/Email that you can use to track the status of your complaint.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tips -->
+                    <div class="help-card">
+                        <div class="help-header">
+                            <i class="fas fa-lightbulb"></i>
+                            <h4>Tips for Better Service</h4>
+                        </div>
+                        <div class="help-content">
+                            <div class="tip-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Place bins at curb by 6:00 AM on collection day</span>
+                            </div>
+                            <div class="tip-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Separate waste according to collection schedule</span>
+                            </div>
+                            <div class="tip-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Keep bins clean and in good condition</span>
+                            </div>
+                            <div class="tip-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Report issues promptly for faster resolution</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center p-4">
+                    <div class="success-icon mb-3">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h4>Complaint Submitted Successfully!</h4>
+                    <p class="mb-3">Your complaint has been received and assigned ID: <strong id="complaintId">#RC2024001</strong></p>
+                    <p class="text-muted mb-4">You will receive updates via SMS/Email. Our team will contact you within 24 hours.</p>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                        <i class="fas fa-check me-2"></i>
+                        Got It
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 
 <!-- Footer -->
 <footer class="admin-footer">
