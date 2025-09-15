@@ -375,3 +375,10 @@ window.addEventListener('load', function() {
         showNotification('Welcome to RecycLanka Admin Dashboard! 🌿', 'success', 5000);
     }, 1000);
 });
+
+//Logout Btn --> Remove Token and Refresh
+$("#logoutBtn").click(function () {
+    localStorage.removeItem("accessToken");
+    location.reload();
+
+})

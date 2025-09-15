@@ -52,10 +52,13 @@ function loadWards(){
 
 function enableButton(){
     $('#loadScheduleBtn').prop('disabled', false);
-    $('#weeklyScheduleContainer').show()
-    $('#scheduleActions').show();
-    $('#todaysCollection').show();
+    /*$('#weeklyScheduleContainer').show()*/
+    /*$('#scheduleActions').show();
+    $('#todaysCollection').show();*/
 }
 
 function loadWeeklySchedule(){
+    $('#weeklyScheduleContainer').show()
+    $('#scheduleActions').show();
+    $('#todaysCollection').show();
 }
