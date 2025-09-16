@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="style/admin-style.css">
     <link rel="stylesheet" href="style/style.css">
     <link rel="stylesheet" href="style/admin-waste-schedule.css">
+    <link rel="stylesheet" href="style/adminComplaint.css">
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -60,7 +61,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" onclick="showSection('complaints')">
+                    <a class="nav-link" href="#" onclick="showSection('admin-complaints')">
                         <i class="fas fa-exclamation-triangle me-1"></i>Complaints
                     </a>
                 </li>
@@ -263,6 +264,8 @@
     </section>
 </section>
 
+
+<!--Collection Schedule Management Section-->
 <section id="collection-schedule" class="section" style="display: none;">
     <!-- Page Header -->
     <section class="page-header">
@@ -421,6 +424,367 @@
                     <!-- Dynamic content -->
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!--Complaint Management Section-->
+<!-- Admin Complaints Section -->
+<!-- Admin Complaints Section -->
+<!-- Admin Complaints Section -->
+<section id="admin-complaints" class="section admin-complaints-section" style="display: none; padding: 5rem 0; background: var(--gray-50);">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <div class="hero-badge d-inline-flex align-items-center mb-3">
+                <i class="fas fa-cogs me-2"></i>
+                Complaints Management
+            </div>
+            <h2 class="section-title">Admin Dashboard - Complaints</h2>
+            <p class="section-description">
+                Manage and resolve citizen complaints efficiently. Monitor complaint status, response times,
+                and maintain high service quality standards across all municipal areas.
+            </p>
+        </div>
+
+        <!-- Summary Stats -->
+        <div class="row mb-5">
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="admin-stat-card pending">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number-value" id="pendingCount">23</div>
+                        <div class="stat-label">Pending</div>
+                        <div class="stat-change">+3 today</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="admin-stat-card in-progress">
+                    <div class="stat-icon">
+                        <i class="fas fa-spinner"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number-value" id="inProgressCount">12</div>
+                        <div class="stat-label">In Progress</div>
+                        <div class="stat-change">Same as yesterday</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="admin-stat-card resolved">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number-value" id="resolvedCount">147</div>
+                        <div class="stat-label">Resolved</div>
+                        <div class="stat-change">+8 today</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="admin-stat-card total">
+                    <div class="stat-icon">
+                        <i class="fas fa-list"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number-value" id="totalCount">182</div>
+                        <div class="stat-label">Total</div>
+                        <div class="stat-change">94% resolved</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters and Controls -->
+        <div class="admin-controls-card mb-4">
+            <div class="controls-header">
+                <h3 class="controls-title">
+                    <i class="fas fa-filter me-2"></i>
+                    Filter & Search Complaints
+                </h3>
+            </div>
+            <div class="controls-content">
+                <div class="row g-3">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="form-floating">
+                            <select class="form-select" id="filterMunicipal" onchange="loadFilterWards(); filterComplaints();">
+                                <option value="">All Municipals</option>
+                                <option value="Colombo">Colombo Municipal Council</option>
+                                <option value="Dehiwala-Mount Lavinia">Dehiwala-Mount Lavinia Municipal Council</option>
+                                <option value="Sri Jayawardenepura Kotte">Sri Jayawardenepura Kotte Municipal Council</option>
+                                <option value="Kaduwela">Kaduwela Municipal Council</option>
+                                <option value="Moratuwa">Moratuwa Municipal Council</option>
+                                <option value="Negombo">Negombo Municipal Council</option>
+                                <option value="Gampaha">Gampaha Municipal Council</option>
+                                <option value="Kurunegala">Kurunegala Municipal Council</option>
+                                <option value="Kandy">Kandy Municipal Council</option>
+                                <option value="Matale">Matale Municipal Council</option>
+                            </select>
+                            <label for="filterMunicipal">Municipal Council</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="form-floating">
+                            <select class="form-select" id="filterWard" onchange="filterComplaints();" disabled>
+                                <option value="">All Wards</option>
+                            </select>
+                            <label for="filterWard">Ward</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-6">
+                        <div class="form-floating">
+                            <select class="form-select" id="filterStatus" onchange="filterComplaints();">
+                                <option value="">All Status</option>
+                                <option value="pending">Pending</option>
+                                <option value="in-progress">In Progress</option>
+                                <option value="resolved">Resolved</option>
+                            </select>
+                            <label for="filterStatus">Status</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-6">
+                        <div class="form-floating">
+                            <select class="form-select" id="filterPriority" onchange="filterComplaints();">
+                                <option value="">All Priority</option>
+                                <option value="high">High</option>
+                                <option value="medium">Medium</option>
+                                <option value="low">Low</option>
+                            </select>
+                            <label for="filterPriority">Priority</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-12">
+                        <button type="button" class="btn btn-outline-primary w-100 h-100" onclick="resetFilters();">
+                            <i class="fas fa-undo me-2"></i>Reset Filters
+                        </button>
+                    </div>
+                </div>
+                <div class="row g-3 mt-2">
+                    <div class="col-12">
+                        <div class="search-box">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" class="form-control" id="searchInput" placeholder="Search complaints by ID, name, or description..." onkeyup="filterComplaints();">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Complaints Table -->
+        <div class="complaints-table-card">
+            <div class="table-header">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3 class="table-title">
+                        <i class="fas fa-list me-2"></i>
+                        Complaints List
+                        <span class="result-count" id="resultCount">(182 complaints)</span>
+                    </h3>
+                    <div class="table-actions">
+                        <button type="button" class="btn btn-outline-success me-2" onclick="exportComplaints();">
+                            <i class="fas fa-download me-1"></i>Export
+                        </button>
+                        <button type="button" class="btn btn-outline-success me-2" onclick="refreshComplaints();">
+                            <i class="fas fa-sync-alt me-1"></i>Refresh
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table complaints-table" id="complaintsTable">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Date</th>
+                        <th>Citizen</th>
+                        <th>Location</th>
+                        <th>Type</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody id="complaintsTableBody">
+                    <!-- Dynamic content will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-footer">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="showing-info">
+                        Showing <span id="showingStart">1</span> to <span id="showingEnd">10</span> of <span id="showingTotal">182</span> complaints
+                    </div>
+                    <nav aria-label="Complaints pagination">
+                        <ul class="pagination mb-0" id="pagination">
+                            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- View/Edit Complaint Modal -->
+    <div class="modal fade" id="complaintModal" tabindex="-1" aria-labelledby="complaintModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="complaintModalLabel">
+                        <i class="fas fa-edit me-2"></i>
+                        Complaint Details - <span id="modalComplaintId">#RC2024001</span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="complaint-details">
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="detail-group">
+                                    <label class="detail-label">Submitted Date</label>
+                                    <div class="detail-value" id="modalDate">2024-01-15 14:30</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="detail-group">
+                                    <label class="detail-label">Current Status</label>
+                                    <div class="detail-value">
+                                        <span class="status-badge pending" id="modalCurrentStatus">Pending</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="detail-group">
+                                    <label class="detail-label">Citizen Name</label>
+                                    <div class="detail-value" id="modalCitizenName">John Doe</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="detail-group">
+                                    <label class="detail-label">Phone Number</label>
+                                    <div class="detail-value" id="modalPhone">+94 77 123 4567</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="detail-group">
+                                    <label class="detail-label">Municipal</label>
+                                    <div class="detail-value" id="modalMunicipal">Colombo Municipal Council</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="detail-group">
+                                    <label class="detail-label">Ward</label>
+                                    <div class="detail-value" id="modalWard">Ward 1 - Fort</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="detail-group">
+                                    <label class="detail-label">Complaint Type</label>
+                                    <div class="detail-value" id="modalType">Missed Collection</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="detail-group">
+                                    <label class="detail-label">Priority</label>
+                                    <div class="detail-value">
+                                        <span class="priority-badge high" id="modalPriority">High</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="detail-group">
+                                    <label class="detail-label">Description</label>
+                                    <div class="detail-value description" id="modalDescription">
+                                        The waste collection truck did not come to our street yesterday (Monday).
+                                        This is the second time this month. Please arrange for collection as soon as possible.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <!-- Status Update Form -->
+                        <div class="status-update-form">
+                            <h6 class="mb-3">
+                                <i class="fas fa-cog me-2"></i>
+                                Update Complaint Status
+                            </h6>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <select class="form-select" id="newStatus" required>
+                                            <option value="pending">Pending</option>
+                                            <option value="in-progress">In Progress</option>
+                                            <option value="resolved">Resolved</option>
+                                        </select>
+                                        <label for="newStatus">New Status</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="updatedBy" value="Admin User" readonly>
+                                        <label for="updatedBy">Updated By</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-floating">
+                                        <textarea class="form-control" id="statusNote" style="height: 100px" placeholder="Add resolution notes..."></textarea>
+                                        <label for="statusNote">Resolution Notes (Optional)</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger" onclick="deleteComplaint()">
+                        <i class="fas fa-trash me-2"></i>Delete
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-2"></i>Cancel
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="updateComplaintStatus()">
+                        <i class="fas fa-save me-2"></i>Update Status
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0 pb-0">
+                    <div class="w-100 text-center">
+                        <div class="delete-icon mb-3">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <h4>Delete Complaint?</h4>
+                    </div>
+                </div>
+                <div class="modal-body text-center">
+                    <p class="mb-3">Are you sure you want to delete complaint <strong id="deleteComplaintId">#RC2024001</strong>?</p>
+                    <p class="text-muted mb-0">This action cannot be undone.</p>
+                </div>
+                <div class="modal-footer border-0 justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-2"></i>Cancel
+                    </button>
+                    <button type="button" class="btn btn-danger" onclick="confirmDelete()">
+                        <i class="fas fa-trash me-2"></i>Delete
+                    </button>
+                </div>
             </div>
         </div>
     </div>
