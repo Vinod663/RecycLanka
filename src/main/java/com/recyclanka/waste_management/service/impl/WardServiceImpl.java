@@ -41,9 +41,9 @@ public class WardServiceImpl implements WardService {
     public List<WardDto> getWardsByMunicipalName(String municipalName) {
         List<Ward> wardNames = wardRepository.findWardNamesByMunicipalName(municipalName);
 
-        /*if (wardNames.isEmpty()) {
+        if (wardNames.isEmpty()) {
             throw new RuntimeException("No wards found for municipal: " + municipalName);
-        }*/
+        }
 
         return modelMapper.map(wardNames, new TypeToken<List<WardDto>>(){}.getType());
 

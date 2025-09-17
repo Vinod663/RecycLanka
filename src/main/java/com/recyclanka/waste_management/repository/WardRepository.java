@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface WardRepository extends JpaRepository<Ward,Long> {
     // Native query to find wards by municipal name
@@ -15,4 +16,6 @@ public interface WardRepository extends JpaRepository<Ward,Long> {
             "WHERE m.name = :municipalName",
             nativeQuery = true)
     List<Ward> findWardNamesByMunicipalName(@Param("municipalName") String municipalName);
+
+    Optional<Ward> findByName(String name);
 }

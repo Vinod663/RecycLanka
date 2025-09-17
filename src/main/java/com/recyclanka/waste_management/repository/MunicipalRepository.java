@@ -4,6 +4,9 @@ import com.recyclanka.waste_management.entity.Municipal;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface MunicipalRepository extends JpaRepository<Municipal, Long> {
+    Optional<Municipal> findByName(String name);
 }

@@ -61,6 +61,8 @@ function loadWards() {
     let municipalName = $("#municipalSelect").val();
     let $wardSelect = $("#wardSelect");
     let $schedulesContainer = $("#schedulesContainer");///table container
+    let $schedulesTableBody = $("#schedulesTableBody");
+    let $scheduleCount = $("#scheduleCount");
 
     if (!municipalName) {
         $wardSelect.prop("disabled", true).html('<option value="">Select municipality first...</option>');
@@ -110,7 +112,190 @@ function loadWards() {
             $wardSelect.prop("disabled", true);
         }
     });
+
+
+    // Load schedules table
+    $.ajax({
+        url: "http://localhost:8080/api/v1/schedules/by-municipal/" + encodeURIComponent(municipalName),
+        method: "GET",
+        headers: { "Authorization": "Bearer " + token },
+        success: function(response) {
+            if (response.status === 200) {
+                let schedules = response.data;
+                $schedulesTableBody.empty();
+
+                if (schedules.length === 0) {
+                    $schedulesTableBody.append('<tr><td colspan="6" class="text-center">No schedules found</td></tr>');
+                } else {
+                    $.each(response.data, function(index, schedule) {
+                        console.log(schedule);
+                        let row = `
+                                  <tr data-id="${schedule.id}">
+                                    <td class="ward-name">${schedule.wardName}</td>
+                                    <td class="day">${schedule.day}</td>
+                                    <td class="waste-type">${schedule.wasteType}</td>
+                                    <td class="time">${schedule.time}</td>
+                                    <td class="status">${schedule.status}</td>
+                                    <td>
+                                    <button class="btn btn-sm btn-outline-primary action-btn btn-edit">Edit</button>
+                                    <button class="btn btn-sm btn-outline-danger action-btn btn-delete">Delete</button>
+                                    </td>
+                                </tr>`;
+                            $("#schedulesTable tbody").append(row);
+                    });
+
+                }
+
+                $scheduleCount.text(schedules.length + " schedules");
+            }
+        },
+        error: function() {
+            $schedulesTableBody.html('<tr><td colspan="6" class="text-center text-danger">Error loading schedules</td></tr>');
+        }
+    });
 }
+
+// Add new schedule
+function addSchedule() {
+    let token = localStorage.getItem("accessToken"); // Get JWT from localStorage
+
+    // Prepare payload
+    let payload = {
+        municipalName: $("#municipalSelect").val(),   // assuming you have this field
+        wardName: $("#wardSelect").val(),    // comes from your selected ward
+        wasteType: $("#wasteType").val(),
+        day: $("#collectionDay").val(),
+        time: $("#startTime").val(),
+        status: $("#status").val()
+    };
+    console.log("Payload: ", payload);
+
+    $.ajax({
+        url: "http://localhost:8080/api/v1/schedules",
+        method: "POST",
+        headers: { "Authorization": "Bearer " + token },
+        contentType: "application/json",
+        data: JSON.stringify(payload),
+        success: function (response) {
+            alert("Schedule saved successfully!");
+
+            clearForm();  // reset form after saving
+            loadWards();  // reload table
+        },
+        error: function (xhr) {
+            console.error(xhr.responseText);
+            alert("Error saving schedule.");
+        }
+    });
+}
+
+
+//Clear form
+function clearForm() {
+    $("#collectionDay").prop("selectedIndex", 0);
+    $("#wasteType").prop("selectedIndex", 0);
+    $("#status").prop("selectedIndex", 0);
+    $("#startTime").val("");
+    $("#selectedWardName").text("");
+    $("#municipalName").val("");
+}
+
+
+
+
+//Edit
+$(document).on("click", ".btn-edit", function () {
+    let row = $(this).closest("tr");
+
+    let id = row.data("id"); // Make sure you set data-id in your table row when rendering
+    let wardName = row.find(".ward-name").text();
+    let wasteType = row.find(".waste-type").text();
+    let day = row.find(".day").text();
+    let time = row.find(".time").text();
+    let status = row.find(".status").text();
+
+    // Fill modal fields
+    $("#updateScheduleId").val(id);
+    console.log("Schedule ID: " + id);
+    $("#updateWardName").val(wardName);
+    $("#updateWasteType").val(wasteType);
+    $("#updateDay").val(day);
+    $("#updateTime").val(time);
+    $("#updateStatus").val(status);
+
+    // Show modal
+    let updateModal = new bootstrap.Modal(document.getElementById("updateScheduleModal"));
+    updateModal.show();
+});
+
+// Save Update
+$("#saveUpdateBtn").on("click", function () {
+    let id = $("#updateScheduleId").val();
+    let token = localStorage.getItem("accessToken");
+
+    let payload = {
+        wasteType: $("#updateWasteType").val(),
+        day: $("#updateDay").val(),
+        time: $("#updateTime").val(),
+        status: $("#updateStatus").val()
+    };
+
+    $.ajax({
+        url: "http://localhost:8080/api/v1/schedules/" + id,
+        method: "PUT",
+        headers: { "Authorization": "Bearer " + token },
+        contentType: "application/json",
+        data: JSON.stringify(payload),
+        success: function (response) {
+            alert("Schedule updated successfully!");
+
+            // Close modal in Bootstrap 5 style
+            let updateModal = bootstrap.Modal.getInstance(document.getElementById("updateScheduleModal"));
+            updateModal.hide();
+
+            loadWards(); // reload table
+        },
+        error: function () {
+            alert("Error updating schedule.");
+        }
+    });
+});
+
+// Delete
+$(document).on("click", ".btn-delete", function () {
+    let row = $(this).closest("tr");
+    let id = row.data("id");
+
+    $("#deleteScheduleId").val(id);
+    // Show modal
+    let deleteModal = new bootstrap.Modal(document.getElementById("deleteScheduleModal"));
+    deleteModal.show();
+});
+
+// Confirm Delete
+$("#confirmDeleteBtn").on("click", function () {
+    let id = $("#deleteScheduleId").val();
+    let token = localStorage.getItem("accessToken");
+
+    $.ajax({
+        url: "http://localhost:8080/api/v1/schedules/" + id,
+        method: "DELETE",
+        headers: { "Authorization": "Bearer " + token },
+        success: function (response) {
+            alert("Schedule deleted successfully!");
+
+            // Close modal in Bootstrap 5 style
+            let deleteModal = bootstrap.Modal.getInstance(document.getElementById("deleteScheduleModal"));
+            deleteModal.hide();
+
+            loadWards(); // reload table
+        },
+        error: function () {
+            alert("Error deleting schedule.");
+        }
+    });
+});
+
 
 
 function searchWards() {
@@ -119,6 +304,24 @@ function searchWards() {
         $(this).toggle($(this).text().toLowerCase().indexOf(searchValue) > -1 || $(this).val() === "");
     });
 }
+
+
+// Handle ward Schedule selection
+document.getElementById('wardSelect').addEventListener('change', function() {
+    const wardSelect = document.getElementById('wardSelect');
+    const scheduleForm = document.getElementById('scheduleForm');
+
+    if (wardSelect.value) {
+        document.getElementById('selectedWardName').textContent = wardSelect.value;
+        scheduleForm.style.display = 'block';
+
+        // Set minimum date to today
+        /*const today = new Date().toISOString().split('T')[0];
+        document.getElementById('collectionDate').min = today;*/
+    } else {
+        scheduleForm.style.display = 'none';
+    }
+});
 
 
 /*function loadWards() {
@@ -155,23 +358,6 @@ function searchWards() {
     }
 }*/
 
-// Handle ward Schedule selection
-document.getElementById('wardSelect').addEventListener('change', function() {
-    const wardSelect = document.getElementById('wardSelect');
-    const scheduleForm = document.getElementById('scheduleForm');
-
-    if (wardSelect.value) {
-        document.getElementById('selectedWardName').textContent = wardSelect.value;
-        scheduleForm.style.display = 'block';
-
-        // Set minimum date to today
-        /*const today = new Date().toISOString().split('T')[0];
-        document.getElementById('collectionDate').min = today;*/
-    } else {
-        scheduleForm.style.display = 'none';
-    }
-});
-
 // Search wards functionality
 /*function searchWards() {
     const searchTerm = document.getElementById('searchWard').value.toLowerCase();
@@ -203,7 +389,7 @@ document.getElementById('wardSelect').addEventListener('change', function() {
 }*/
 
 // Add new schedule
-function addSchedule() {
+/*function addSchedule() {
     const municipalSelect = document.getElementById('municipalSelect');
     const wardSelect = document.getElementById('wardSelect');
     const collectionDate = document.getElementById('collectionDate');
@@ -492,7 +678,7 @@ function formatTime(timeString) {
 
 function capitalizeFirst(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
-}
+}*/
 
 // Notification system
 function showNotification(message, type = 'info', duration = 4000) {
