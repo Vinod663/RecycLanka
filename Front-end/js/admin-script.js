@@ -1,4 +1,9 @@
 // Admin Dashboard JavaScript
+$(document).ready(function () {
+    // Load all dashboard stats as soon as page is ready
+    loadActiveSchedulesCount();
+    initActionCards();
+});
 
 document.addEventListener('DOMContentLoaded', function() {
     const token = localStorage.getItem("accessToken");
@@ -17,7 +22,40 @@ document.addEventListener('DOMContentLoaded', function() {
     initActionCards();
     initScrollAnimations();
     initNotifications();
+    loadActiveSchedulesCount();
+
 });
+
+function loadActiveSchedulesCount() {
+    let token = localStorage.getItem("accessToken");
+
+    $.ajax({
+        url: "http://localhost:8080/api/v1/schedules", // ✅ Get all schedules
+        method: "GET",
+        headers: { "Authorization": "Bearer " + token },
+        success: function (response) {
+            if (response.status === 200 && response.data.length > 0) {
+                // Count only ACTIVE schedules
+                let activeCount = response.data.filter(s => s.status === "ACTIVE").length;
+                /*let activeCount activeCount = 500;*/
+
+                // Update badge
+                $("#active-schedules").text(activeCount + " Active");
+                // also update #active-routes data-count and text
+                $("#active-routes").attr("data-count", activeCount).text(activeCount);
+                $(".stat")
+            } else {
+                $("#active-schedules").text("0 Active");
+            }
+        },
+        error: function (xhr) {
+            console.error("Error fetching schedules:", xhr);
+            $("#active-schedules").text("0 Active");
+        }
+    });
+}
+
+
 
 // Navigation Functions
 function initNavigation() {

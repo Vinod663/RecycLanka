@@ -51,4 +51,16 @@ public class CollectionScheduleController {
         scheduleService.deleteSchedule(id);
         return ResponseEntity.ok(new APIResponse(200, "Schedule deleted successfully", null));
     }
+
+    @GetMapping
+    public ResponseEntity<APIResponse> getAllSchedules() {
+        List<CollectionScheduleDto> schedules = scheduleService.getAllSchedules();
+        return ResponseEntity.ok(
+                new APIResponse(
+                        200,
+                        "All schedules retrieved successfully",
+                        schedules)
+        );
+    }
+
 }

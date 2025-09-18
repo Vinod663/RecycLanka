@@ -168,6 +168,33 @@ function addSchedule() {
         time: $("#startTime").val(),
         status: $("#status").val()
     };
+
+    if (payload.municipalName === null || payload.municipalName === "") {
+        alert("Please select a municipality.");
+        return;
+    }
+    if (payload.wardName === null || payload.wardName === "") {
+        alert("Please select a ward.");
+        return;
+    }
+    if (payload.wasteType === null || payload.wasteType === "") {
+        alert("Please select a waste type.");
+        return;
+    }
+    if (payload.day === null || payload.day === "") {
+        alert("Please select a collection day.");
+        return;
+    }
+    if (payload.time === null || payload.time === "") {
+        alert("Please select a collection time.");
+        return;
+    }
+    if (payload.status === null || payload.status === "") {
+        alert("Please select a status.");
+        return;
+    }
+
+
     console.log("Payload: ", payload);
 
     $.ajax({
@@ -181,6 +208,7 @@ function addSchedule() {
 
             clearForm();  // reset form after saving
             loadWards();  // reload table
+            loadActiveSchedulesCount(); // Update active schedules count
         },
         error: function (xhr) {
             console.error(xhr.responseText);
@@ -196,7 +224,7 @@ function clearForm() {
     $("#wasteType").prop("selectedIndex", 0);
     $("#status").prop("selectedIndex", 0);
     $("#startTime").val("");
-    $("#selectedWardName").text("");
+    /*$("#selectedWardName").text("");*/
     $("#municipalName").val("");
 }
 
@@ -254,6 +282,7 @@ $("#saveUpdateBtn").on("click", function () {
             updateModal.hide();
 
             loadWards(); // reload table
+            loadActiveSchedulesCount(); // Update active schedules count
         },
         error: function () {
             alert("Error updating schedule.");
@@ -289,12 +318,41 @@ $("#confirmDeleteBtn").on("click", function () {
             deleteModal.hide();
 
             loadWards(); // reload table
+            loadActiveSchedulesCount(); // Update active schedules count
         },
         error: function () {
             alert("Error deleting schedule.");
         }
     });
 });
+
+
+function loadActiveSchedulesCount() {
+    let token = localStorage.getItem("accessToken");
+
+    $.ajax({
+        url: "http://localhost:8080/api/v1/schedules", // ✅ Get all schedules
+        method: "GET",
+        headers: { "Authorization": "Bearer " + token },
+        success: function (response) {
+            if (response.status === 200 && response.data.length > 0) {
+                // Count only ACTIVE schedules
+                let activeCount = response.data.filter(s => s.status === "ACTIVE").length;
+
+                // Update badge
+                $("#active-schedules").text(activeCount + " Active");
+                // also update #active-routes data-count and text
+                $("#active-routes").attr("data-count", activeCount).text(activeCount);
+            } else {
+                $("#active-schedules").text("0 Active");
+            }
+        },
+        error: function (xhr) {
+            console.error("Error fetching schedules:", xhr);
+            $("#active-schedules").text("0 Active");
+        }
+    });
+}
 
 
 

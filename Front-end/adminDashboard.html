@@ -126,7 +126,7 @@
                                         <div class="stat-icon">
                                             <i class="fas fa-recycle"></i>
                                         </div>
-                                        <div class="stat-number" data-count="2847">0</div>
+                                        <div class="stat-number"  data-count="2847">0</div>
                                         <div class="stat-label">Tons Recycled</div>
                                     </div>
                                 </div>
@@ -135,7 +135,7 @@
                                         <div class="stat-icon">
                                             <i class="fas fa-truck"></i>
                                         </div>
-                                        <div class="stat-number" data-count="156">0</div>
+                                        <div class="stat-number" id="active-routes" data-count="0">0</div>
                                         <div class="stat-label">Active Routes</div>
                                     </div>
                                 </div>
@@ -220,13 +220,13 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="action-card" data-section="collection">
+                    <div class="action-card" data-section="collection" onclick="showSection('collection-schedule')">
                         <div class="action-icon">
                             <i class="fas fa-calendar-check"></i>
                         </div>
                         <h5>Schedule Management</h5>
                         <p>Manage collection schedules and routes efficiently</p>
-                        <div class="action-badge">24 Active</div>
+                        <div class="action-badge" id="active-schedules">24 Active</div>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 mb-4">
@@ -240,7 +240,7 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="action-card" data-section="complaints">
+                    <div class="action-card" data-section="complaints" onclick="showSection('admin-complaints')">
                         <div class="action-icon">
                             <i class="fas fa-headset"></i>
                         </div>
@@ -329,7 +329,7 @@
                     <label for="wardSelect" class="form-label">
                         <i class="fas fa-map-marker-alt me-2"></i>Select Ward
                     </label>
-                    <select class="form-select " id="wardSelect"  disabled>
+                    <select class="form-select " id="wardSelect"  disabled required>
                         <option value="check">Select municipality first...</option>
                     </select>
                 </div>
@@ -479,7 +479,7 @@
                         <select id="updateStatus" class="form-select">
                             <option value="ACTIVE">ACTIVE</option>
                             <option value="INACTIVE">INACTIVE</option>
-                            <option value="INACTIVE">CANCELLED</option>
+                            <option value="CANCELLED">CANCELLED</option>
                         </select>
                     </div>
                 </form>
@@ -896,8 +896,8 @@
             <div class="col-lg-2 col-md-3 col-sm-6 mb-4">
                 <h6 class="footer-title text-md-start text-center">Quick Links</h6>
                 <ul class="footer-links">
-                    <li><a href="#home">Dashboard</a></li>
-                    <li><a href="#collection">Collections</a></li>
+                    <li><a href="#" onclick="showSection('dashboard')">Dashboard</a></li>
+                    <li><a href="#" onclick="showSection('collection-schedule')">Collections</a></li>
                     <li><a href="#inventory">Inventory</a></li>
                     <li><a href="#statistics">Analytics</a></li>
                 </ul>
@@ -907,7 +907,7 @@
                 <h6 class="footer-title text-md-start text-center">Management</h6>
                 <ul class="footer-links">
                     <li><a href="#waste-entry">Waste Entry</a></li>
-                    <li><a href="#complaints">Complaints</a></li>
+                    <li><a href="#" onclick="showSection('admin-complaints')">Complaints</a></li>
                     <li><a href="#reports">Reports</a></li>
                     <li><a href="#settings">Settings</a></li>
                 </ul>

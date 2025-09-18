@@ -56,6 +56,7 @@ public class CollectionScheduleServiceImpl implements CollectionScheduleService 
             CollectionScheduleDto dto = modelMapper.map(schedule, CollectionScheduleDto.class);
             dto.setMunicipalName(schedule.getMunicipal().getName());
             dto.setWardName(schedule.getWard().getName());
+            dto.setStatus(schedule.getStatus());
             return dto;
         }).toList();
     }
@@ -82,4 +83,13 @@ public class CollectionScheduleServiceImpl implements CollectionScheduleService 
         }
         scheduleRepository.deleteById(id);
     }
+
+    @Override
+    public List<CollectionScheduleDto> getAllSchedules() {
+        return scheduleRepository.findAll()
+                .stream()
+                .map(entity -> modelMapper.map(entity, CollectionScheduleDto.class))
+                .toList();
+    }
+
 }

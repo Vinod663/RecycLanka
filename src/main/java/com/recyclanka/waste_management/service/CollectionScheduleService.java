@@ -9,4 +9,6 @@ public interface CollectionScheduleService {
     List<CollectionScheduleDto> getSchedulesByMunicipal(String municipalName);
     CollectionScheduleDto updateSchedule(Long id, CollectionScheduleDto dto);
     void deleteSchedule(Long id);
+    List<CollectionScheduleDto> getAllSchedules();
+
 }

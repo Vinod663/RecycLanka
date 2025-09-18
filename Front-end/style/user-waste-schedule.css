@@ -129,14 +129,23 @@
 
 .legend-dot.organic {
     background: var(--primary-color);
+    border-color: #FFFFFF;
+    border-width: 2px;
+    border-style: solid;
 }
 
 .legend-dot.recyclable {
     background: #2563eb;
+    border-color: #FFFFFF;
+    border-width: 2px;
+    border-style: solid;
 }
 
 .legend-dot.general {
     background: var(--gray-500);
+    border-color: #FFFFFF;
+    border-width: 2px;
+    border-style: solid;
 }
 
 /* Weekly Calendar Grid */
