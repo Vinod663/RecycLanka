@@ -24,4 +24,7 @@ public class Municipal {
     @OneToMany(mappedBy = "municipal", cascade = CascadeType.ALL)
     private List<CollectionSchedule> collectionSchedules;
 
+    @OneToMany(mappedBy = "municipal", cascade = CascadeType.ALL)
+    private List<Complaint> complaints;
+
 }

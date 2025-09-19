@@ -26,5 +26,8 @@ public class Ward {
     @OneToMany(mappedBy = "ward", cascade = CascadeType.ALL)
     private List<CollectionSchedule> collectionSchedules;
 
+    @OneToMany(mappedBy = "ward", cascade = CascadeType.ALL)
+    private List<Complaint> complaints;
+
 
 }
