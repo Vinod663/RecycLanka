@@ -340,7 +340,7 @@ function showNotification(message, type = 'info') {
 }
 
 // Add CSS for notification animations
-const style = document.createElement('style');
+/*const style = document.createElement('style');
 style.textContent = `
             @keyframes slideIn {
                 from {
@@ -364,7 +364,7 @@ style.textContent = `
                 }
             }
         `;
-document.head.appendChild(style);
+document.head.appendChild(style);*/
 
 // Initialize pagination info
 updatePaginationInfo();

@@ -520,8 +520,7 @@
 
 
 <!--Complaint Management Section-->
-<!-- Admin Complaints Section -->
-<!-- Admin Complaints Section -->
+
 <!-- Admin Complaints Section -->
 <section id="admin-complaints" class="section admin-complaints-section" style="display: none; padding: 5rem 0; background: var(--gray-50);">
     <div class="container">
@@ -641,7 +640,7 @@
                     </div>
                     <div class="col-lg-2 col-md-6">
                         <div class="form-floating">
-                            <select class="form-select" id="filterStatus" onchange="filterComplaints();">
+                            <select class="form-select" id="filterStatus" ><!--onchange="filterComplaints();"-->
                                 <option value="">All Status</option>
                                 <option value="PENDING">Pending</option>
                                 <option value="IN_PROGRESS">In Progress</option>
@@ -652,7 +651,7 @@
                     </div>
                     <div class="col-lg-2 col-md-6">
                         <div class="form-floating">
-                            <select class="form-select" id="filterPriority" onchange="filterComplaints();">
+                            <select class="form-select" id="filterPriority" ><!--onchange="filterComplaints();"-->
                                 <option value="">All Priority</option>
                                 <option value="HIGH">High</option>
                                 <option value="MEDIUM">Medium</option>
@@ -671,7 +670,7 @@
                     <div class="col-12">
                         <div class="search-box">
                             <i class="fas fa-search search-icon"></i>
-                            <input type="text" class="form-control" id="searchInput" placeholder="Search complaints by ID, name, or description..." onkeyup="filterComplaints();">
+                            <input type="text" class="form-control" id="searchInputComplaint" placeholder="Search complaints by ID, name, or description..." ><!--onkeyup="filterComplaints();"-->
                         </div>
                     </div>
                 </div>
@@ -691,7 +690,7 @@
                         <button type="button" class="btn btn-outline-success me-2" onclick="exportComplaints();">
                             <i class="fas fa-download me-1"></i>Export
                         </button>
-                        <button type="button" class="btn btn-outline-success me-2" onclick="refreshComplaints();">
+                        <button type="button" class="btn btn-outline-success me-2" onclick="resetFilters();">
                             <i class="fas fa-sync-alt me-1"></i>Refresh
                         </button>
                     </div>
@@ -703,12 +702,12 @@
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Date</th>
-                        <th>Citizen</th>
-                        <th>Location</th>
+                        <th>Citizen Name</th>
                         <th>Type</th>
                         <th>Priority</th>
                         <th>Status</th>
+                        <th>Municipal</th>
+                        <th>Ward</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -773,6 +772,12 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="detail-group">
+                                    <label class="detail-label">Email</label>
+                                    <div class="detail-value" id="modalCitizenEmail">vinod@gmail.com</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="detail-group">
                                     <label class="detail-label">Phone Number</label>
                                     <div class="detail-value" id="modalPhone">+94 77 123 4567</div>
                                 </div>
@@ -826,23 +831,17 @@
                                 <div class="col-md-6">
                                     <div class="form-floating">
                                         <select class="form-select" id="newStatus" required>
-                                            <option value="pending">Pending</option>
-                                            <option value="in-progress">In Progress</option>
-                                            <option value="resolved">Resolved</option>
+                                            <option value="PENDING">Pending</option>
+                                            <option value="IN_PROGRESS">In Progress</option>
+                                            <option value="RESOLVED">Resolved</option>
                                         </select>
                                         <label for="newStatus">New Status</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="updatedBy" value="Admin User" readonly>
+                                        <input type="text" class="form-control" id="updatedBy" value="Admin" readonly>
                                         <label for="updatedBy">Updated By</label>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-floating">
-                                        <textarea class="form-control" id="statusNote" style="height: 100px" placeholder="Add resolution notes..."></textarea>
-                                        <label for="statusNote">Resolution Notes (Optional)</label>
                                     </div>
                                 </div>
                             </div>
@@ -850,9 +849,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-danger" onclick="deleteComplaint()">
+                    <!--<button type="button" class="btn btn-outline-danger" onclick="deleteComplaint()">
                         <i class="fas fa-trash me-2"></i>Delete
-                    </button>
+                    </button>-->
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         <i class="fas fa-times me-2"></i>Cancel
                     </button>
@@ -893,7 +892,7 @@
     </div>
 </section>
 
-
+<!---->
 <!--User Profile Manage Section-->
 <section id="userProfile" class="section userProfile-section" style="display: none;">
     <div class="admin-dashboard-wrapper">

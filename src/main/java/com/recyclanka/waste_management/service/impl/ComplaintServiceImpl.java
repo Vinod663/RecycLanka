@@ -1,18 +1,19 @@
 package com.recyclanka.waste_management.service.impl;
 
 import com.recyclanka.waste_management.dto.ComplaintDto;
-import com.recyclanka.waste_management.entity.Complaint;
-import com.recyclanka.waste_management.entity.Municipal;
-import com.recyclanka.waste_management.entity.Ward;
+import com.recyclanka.waste_management.entity.*;
 import com.recyclanka.waste_management.repository.ComplaintRepository;
 import com.recyclanka.waste_management.repository.MunicipalRepository;
 import com.recyclanka.waste_management.repository.WardRepository;
 import com.recyclanka.waste_management.service.ComplaintService;
+import com.recyclanka.waste_management.specification.ComplaintSpecification;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -45,21 +46,84 @@ public class ComplaintServiceImpl implements ComplaintService {
 
     @Override
     public ComplaintDto getComplaintById(Long id) {
-        return null;
+        Complaint complaint = complaintRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Complaint not found with id: " + id));
+        return modelMapper.map(complaint, ComplaintDto.class);
     }
 
     @Override
     public List<ComplaintDto> getAllComplaints() {
-        return List.of();
+        List<Complaint> complaints = complaintRepository.findAll();
+        return complaints.stream()
+                .map(complaint -> modelMapper.map(complaint, ComplaintDto.class))
+                .toList();
     }
 
     @Override
     public ComplaintDto updateComplaint(Long id, ComplaintDto complaintDto) {
-        return null;
+        Complaint complaint = complaintRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Complaint not found with id: " + id));
+
+        // update only allowed fields (status, description, etc.)
+        if (complaintDto.getComplaintStatus() != null) {
+            complaint.setComplaintStatus(complaintDto.getComplaintStatus());
+        }
+        if (complaintDto.getDescription() != null) {
+            complaint.setDescription(complaintDto.getDescription());
+        }
+        if (complaintDto.getPriority() != null) {
+            complaint.setPriority(complaintDto.getPriority());
+        }
+
+        Complaint updated = complaintRepository.save(complaint);
+        return modelMapper.map(updated, ComplaintDto.class);
     }
 
     @Override
     public void deleteComplaint(Long id) {
-
+        if (!complaintRepository.existsById(id)) {
+            throw new RuntimeException("Complaint not found with id: " + id);
+        }
+        complaintRepository.deleteById(id);
     }
+
+    @Override
+    public List<ComplaintDto> getFilteredComplaints(String municipalName, String wardName, ComplaintStatus status, Priority priority, String search) {
+        /*Specification<Complaint> spec = Specification
+                .where(ComplaintSpecification.hasMunicipal(municipalName))
+                .and(ComplaintSpecification.hasWard(wardName))
+                .and(ComplaintSpecification.hasStatus(status))
+                .and(ComplaintSpecification.hasPriority(priority))
+                .and(ComplaintSpecification.hasSearch(search));*/
+
+        // Note: you can remove .where() entirely if you prefer:
+         Specification<Complaint> spec = ComplaintSpecification.hasMunicipal(municipalName)
+                .and(ComplaintSpecification.hasWard(wardName))
+                 .and(ComplaintSpecification.hasStatus(status))
+                 .and(ComplaintSpecification.hasPriority(priority))
+                 .and(ComplaintSpecification.hasSearch(search));
+
+        List<Complaint> complaints = complaintRepository.findAll(spec);
+
+        return complaints.stream()
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
+    }
+
+    private ComplaintDto mapToDto(Complaint complaint) {
+        return ComplaintDto.builder()
+                .id(complaint.getId())
+                .name(complaint.getName())
+                .complaintType(complaint.getComplaintType())
+                .priority(complaint.getPriority())
+                .complaintStatus(complaint.getComplaintStatus())
+                .municipalName(complaint.getMunicipal().getName())
+                .wardName(complaint.getWard().getName())
+                .description(complaint.getDescription())
+                .createdAt(complaint.getCreatedAt())
+                .email(complaint.getEmail())
+                .phone(complaint.getPhone())
+                .build();
+    }
+
 }
