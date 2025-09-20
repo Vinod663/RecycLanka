@@ -109,6 +109,7 @@ function addComplaint() {
             alert("Complaint saved successfully!");
 
             $("#complaintForm")[0].reset(); // reset form after saving
+            loadComplaintStats();
         },
         error: function (xhr) {
             console.error(xhr.responseText);
@@ -116,3 +117,30 @@ function addComplaint() {
         }
     });
 }
+
+function loadComplaintStats() {
+    $.ajax({
+        url: "http://localhost:8080/api/v1/complaints/stats",
+        type: "GET",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("accessToken")
+        },
+        success: function (stats) {
+            $("#complaintResolved").text(stats.resolvedCount);
+            let totalCount = stats.totalCount || 1; // prevent division by zero
+            let resolvedCount = stats.resolvedCount || 0;
+            let percentage = Math.round((resolvedCount / totalCount) * 100);
+            $("#resolutionRate").text(percentage + "%");
+
+        },
+        error: function (xhr) {
+            console.error("Failed to load stats: " + xhr.responseText);
+        }
+    });
+}
+
+$(document).ready(function() {
+    loadComplaintStats();
+
+});
+
