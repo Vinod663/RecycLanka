@@ -63,12 +63,14 @@ function resetFilters() {
     $("#filterPriority").val('');
     $("#searchInputComplaint").val('');
     loadComplaints(); // reload without filters
+    loadComplaintStats();
 }
 
 
 $(document).ready(function() {
     // Load ALl Complaints on page load
     loadComplaints();
+    loadComplaintStats();
 
 });
 
@@ -257,6 +259,7 @@ function updateComplaintStatus() {
         success: function () {
             $("#complaintModal").modal("hide");
             loadComplaints(); // reload table
+            loadComplaintStats();
         },
         error: function (xhr) {
             alert("Failed to update status: " + xhr.responseText);
@@ -275,9 +278,29 @@ function confirmDelete() {
         success: function () {
             $("#deleteModal").modal("hide");
             loadComplaints(); // reload table
+            loadComplaintStats();
         },
         error: function (xhr) {
             alert("Failed to delete complaint: " + xhr.responseText);
+        }
+    });
+}
+
+function loadComplaintStats() {
+    $.ajax({
+        url: "http://localhost:8080/api/v1/complaints/stats",
+        type: "GET",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("accessToken")
+        },
+        success: function (stats) {
+            $("#pendingCount").text(stats.pendingCount);
+            $("#inProgressCount").text(stats.inProgressCount);
+            $("#resolvedCount").text(stats.resolvedCount);
+            $("#totalCount").text(stats.totalCount);
+        },
+        error: function (xhr) {
+            console.error("Failed to load stats: " + xhr.responseText);
         }
     });
 }
