@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="style/style.css">
     <link rel="stylesheet" href="style/admin-waste-schedule.css">
     <link rel="stylesheet" href="style/adminComplaint.css">
+    <link rel="stylesheet" href="style/userProfileAdmin.css">
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -45,9 +46,14 @@
                         <i class="fas fa-calendar-alt me-1"></i>Collection Schedule
                     </a>
                 </li>
-                <li class="nav-item">
+                <!--<li class="nav-item">
                     <a class="nav-link" href="#" onclick="showSection('inventory-management')">
                         <i class="fas fa-boxes me-1"></i>Inventory Management
+                    </a>
+                </li>-->
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="showSection('userProfile')">
+                        <i class="fas fa-users me-2"></i>User Management
                     </a>
                 </li>
                 <li class="nav-item">
@@ -595,8 +601,8 @@
                 <div class="row g-3">
                     <div class="col-lg-3 col-md-6">
                         <div class="form-floating">
-                            <select class="form-select" id="filterMunicipal" onchange="loadFilterWards(); filterComplaints();">
-                                <option value="">All Municipals</option>
+                            <select class="form-select" id="filterMunicipal" onchange="filterWards();">
+                                <option value="" disabled selected>Select Municipal</option>
                                 <option value="Colombo">Colombo Municipal Council</option>
                                 <option value="Dehiwala-Mount Lavinia">Dehiwala-Mount Lavinia Municipal Council</option>
                                 <option value="Sri Jayawardenepura Kotte">Sri Jayawardenepura Kotte Municipal Council</option>
@@ -607,13 +613,27 @@
                                 <option value="Kurunegala">Kurunegala Municipal Council</option>
                                 <option value="Kandy">Kandy Municipal Council</option>
                                 <option value="Matale">Matale Municipal Council</option>
+                                <option value="Dambulla">Dambulla Municipal Council</option>
+                                <option value="Nuwara Eliya">Nuwara Eliya Municipal Council</option>
+                                <option value="Badulla">Badulla Municipal Council</option>
+                                <option value="Bandarawela">Bandarawela Municipal Council</option>
+                                <option value="Galle">Galle Municipal Council</option>
+                                <option value="Matara">Matara Municipal Council</option>
+                                <option value="Hambantota">Hambantota Municipal Council</option>
+                                <option value="Ratnapura">Ratnapura Municipal Council</option>
+                                <option value="Anuradhapura">Anuradhapura Municipal Council</option>
+                                <option value="Polonnaruwa">Polonnaruwa Municipal Council</option>
+                                <option value="Jaffna">Jaffna Municipal Council</option>
+                                <option value="Batticaloa">Batticaloa Municipal Council</option>
+                                <option value="Kalmunai">Kalmunai Municipal Council</option>
+                                <option value="Akkaraipattu">Akkaraipattu Municipal Council</option>
                             </select>
                             <label for="filterMunicipal">Municipal Council</label>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6">
                         <div class="form-floating">
-                            <select class="form-select" id="filterWard" onchange="filterComplaints();" disabled>
+                            <select class="form-select" id="filterWard"  disabled>
                                 <option value="">All Wards</option>
                             </select>
                             <label for="filterWard">Ward</label>
@@ -873,6 +893,178 @@
     </div>
 </section>
 
+
+<!--User Profile Manage Section-->
+<section id="userProfile" class="section userProfile-section" style="display: none;">
+    <div class="admin-dashboard-wrapper">
+        <!-- Admin Header -->
+        <div class="admin-header-section admin-fade-in">
+            <div class="admin-title-row">
+                <div class="admin-page-title">
+                    <div class="admin-title-icon">
+                        <i class="fas fa-users-cog"></i>
+                    </div>
+                    <div class="admin-title-text">
+                        <h1>User Management</h1>
+                        <p>Manage and monitor all RecycLanka users</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-stats-overview">
+                <div class="admin-stat-card">
+                    <div class="admin-stat-number">1,247</div>
+                    <div class="admin-stat-label">Total Users</div>
+                </div>
+                <div class="admin-stat-card">
+                    <div class="admin-stat-number">587</div>
+                    <div class="admin-stat-label">Municipal Council</div>
+                </div>
+                <div class="admin-stat-card">
+                    <div class="admin-stat-number">423</div>
+                    <div class="admin-stat-label">Citizens</div>
+                </div>
+                <div class="admin-stat-card">
+                    <div class="admin-stat-number">237</div>
+                    <div class="admin-stat-label">Organizations</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Users Management Panel -->
+        <div class="users-management-panel admin-fade-in">
+            <!-- Toolbar -->
+            <div class="panel-toolbar">
+                <div class="toolbar-row">
+                    <div class="toolbar-search">
+                        <select class="filter-select" id="organizationFilter">
+                            <option value="">All Organizations</option>
+                            <option value="Municipal Council">Municipal Council</option>
+                            <option value="Waste Collection Services">Waste Collection Services</option>
+                            <option value="Recycling Center">Recycling Center</option>
+                            <option value="Environmental Agency">Environmental Agency</option>
+                            <option value="Citizen">Citizen</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <select class="filter-select" id="roleFilter">
+                            <option value="">All Roles</option>
+                            <option value="ADMIN">Admin</option>
+                            <option value="USER">User</option>
+                            <option value="MODERATOR">Moderator</option>
+                        </select>
+                    </div>
+
+                    <div class="toolbar-actions">
+                        <button class="admin-btn-secondary" id="exportUsersBtn">
+                            <i class="fas fa-download"></i>
+                            Export
+                        </button>
+                        <button class="admin-btn-primary" id="addUserBtn">
+                            <i class="fas fa-plus"></i>
+                            Add User
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Users Table -->
+            <div class="users-table-container">
+                <table class="users-data-table" id="usersTable">
+                    <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Organization</th>
+                        <th>Phone Number</th>
+                        <th>Role</th>
+                        <th>User ID</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody id="usersTableBody">
+                    <!-- Table rows will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="table-pagination">
+                <div class="pagination-info">
+                    Showing <span id="paginationStart">1</span> to <span id="paginationEnd">10</span> of <span id="paginationTotal">1,247</span> users
+                </div>
+                <div class="pagination-controls">
+                    <button class="pagination-btn" id="prevPageBtn"><i class="fas fa-chevron-left"></i></button>
+                    <button class="pagination-btn active">1</button>
+                    <button class="pagination-btn">2</button>
+                    <button class="pagination-btn">3</button>
+                    <span>...</span>
+                    <button class="pagination-btn">125</button>
+                    <button class="pagination-btn" id="nextPageBtn"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Detail Modal -->
+    <div class="user-detail-modal" id="userDetailModal">
+        <div class="modal-content-wrapper">
+            <div class="modal-header-section">
+                <h3 class="modal-title">User Details</h3>
+                <button class="modal-close-btn" onclick="closeUserDetailModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="modal-body-section">
+                <div class="user-detail-profile">
+                    <div class="user-detail-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="user-detail-info">
+                        <h3 id="modalUserName">Loading...</h3>
+                        <p id="modalUserEmail">Loading...</p>
+                    </div>
+                </div>
+
+                <div class="detail-field-grid">
+                    <div class="detail-field-item">
+                        <div class="detail-field-label">User ID</div>
+                        <div class="detail-field-value" id="modalUserId">Loading...</div>
+                    </div>
+                    <div class="detail-field-item">
+                        <div class="detail-field-label">First Name</div>
+                        <div class="detail-field-value" id="modalUserFirstName">Loading...</div>
+                    </div>
+                    <div class="detail-field-item">
+                        <div class="detail-field-label">Last Name</div>
+                        <div class="detail-field-value" id="modalUserLastName">Loading...</div>
+                    </div>
+                    <div class="detail-field-item">
+                        <div class="detail-field-label">Organization Name</div>
+                        <div class="detail-field-value" id="modalUserOrg">Loading...</div>
+                    </div>
+                    <div class="detail-field-item">
+                        <div class="detail-field-label">Phone Number</div>
+                        <div class="detail-field-value" id="modalUserPhone">Loading...</div>
+                    </div>
+                    <div class="detail-field-item">
+                        <div class="detail-field-label">Role</div>
+                        <div class="detail-field-value" id="modalUserRole">Loading...</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button class="admin-btn-secondary" onclick="closeUserDetailModal()">Close</button>
+                <button class="admin-btn-primary" onclick="editUserDetails()">
+                    <i class="fas fa-edit"></i>
+                    Edit User
+                </button>
+            </div>
+        </div>
+    </div>
+
+</section>
+
 <!-- Footer -->
 <footer class="admin-footer">
     <div class="container">
@@ -970,6 +1162,8 @@
 <!-- Custom Script -->
 <script src="js/admin-script.js"></script>
 <script src="js/admin-waste-schedule.js"></script>
+<script src="js/admin-complaint.js"></script>
+<script src="js/admin-user-manage.js"></script>
 
 <script>
     document.getElementById('dashboard').style.display = 'block';

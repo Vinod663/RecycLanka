@@ -2,7 +2,7 @@ function loadComplaintWards(){
         let municipalName = $("#complaintMunicipal").val();
         let $wardSelect = $("#complaintWard");
 
-        clearForm(); // Clear previous selections and disable button
+        /*clearForm();*/ // Clear previous selections and disable button
 
         if (!municipalName) {
             $wardSelect.prop("disabled", true).html('<option value="">Select municipality first...</option>');

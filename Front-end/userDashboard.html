@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="style/style.css">
     <link rel="stylesheet" href="style/user-waste-schedule.css">
     <link rel="stylesheet" href="style/userComplaint.css">
+    <link rel="stylesheet" href="style/userHelp.css">
+    <link rel="stylesheet" href="style/userProfile.css">
 </head>
 <body>
 <!-- Navigation -->
@@ -48,7 +50,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="#" onclick="showSection('help')">
                         <i class="fa-regular fa-circle-question"></i>Help
                     </a>
                 </li>
@@ -151,7 +153,7 @@
                             <a href="#" class="btn btn-primary btn-lg me-3" onclick="showSection('collection-schedule')">
                                 <i class="fa-solid fa-calendar-days me-2"></i>View Schedule
                             </a>
-                            <a href="#statistics" class="btn btn-outline-light btn-lg">
+                            <a href="#statistics" class="btn btn-outline-light btn-lg" onclick="showSection('complaints')">
                                 <i class="fa-solid fa-file-invoice me-2"></i>Report Issue
                             </a>
                         </div>
@@ -227,7 +229,7 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="action-card" data-section="complaints">
+                    <div class="action-card" data-section="complaints" onclick="showSection('help')">
                         <div class="action-icon">
                             <i class="fas fa-headset"></i>
                         </div>
@@ -237,7 +239,7 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="action-card" data-section="statistics">
+                    <div class="action-card" data-section="statistics" onclick="showSection('userProfile')">
                         <div class="action-icon">
                             <i class="fa-solid fa-user"></i>
                         </div>
@@ -961,6 +963,384 @@
 </section>
 
 
+<!--Help Section-->
+<section id="help" class="section help-section">
+    <div class="container">
+        <!-- Header -->
+        <div class="section-header text-center mb-5">
+            <div class="hero-badge d-inline-flex align-items-center mb-3">
+                <i class="fas fa-lightbulb me-2"></i>
+                Help Center
+            </div>
+            <h2 class="section-title">Get Help & Learn</h2>
+            <p class="section-description">
+                Everything you need to know about waste management, recycling, and using RecycLanka effectively.
+            </p>
+        </div>
+
+        <!-- Creative Search -->
+        <div class="search-container">
+            <div class="search-wrapper">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="help-search" placeholder="What would you like to learn about?">
+            </div>
+        </div>
+
+        <!-- Knowledge Cards with Creative Layout -->
+        <div class="knowledge-grid">
+            <div class="knowledge-card card-getting-started" onclick="showKnowledge('getting-started')">
+                <div class="card-icon">
+                    <i class="fas fa-play-circle"></i>
+                </div>
+                <h4 class="card-title">Getting Started</h4>
+                <p class="card-description">
+                    New to RecycLanka? Learn the basics of navigating your dashboard,
+                    setting up your profile, and understanding the platform's features.
+                </p>
+            </div>
+
+            <div class="knowledge-card card-schedule" onclick="showKnowledge('schedule')">
+                <div class="card-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <h4 class="card-title">Collection Schedules</h4>
+                <p class="card-description">
+                    Master your waste collection timeline. Set up reminders,
+                    understand pickup days, and never miss a collection again.
+                </p>
+            </div>
+
+            <div class="knowledge-card card-sorting" onclick="showKnowledge('sorting')">
+                <div class="card-icon">
+                    <i class="fas fa-recycle"></i>
+                </div>
+                <h4 class="card-title">Waste Sorting Guide</h4>
+                <p class="card-description">
+                    Learn proper waste separation techniques. Understand what goes
+                    where and maximize your recycling impact.
+                </p>
+            </div>
+
+            <div class="knowledge-card card-troubleshooting" onclick="showKnowledge('troubleshooting')">
+                <div class="card-icon">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <h4 class="card-title">Common Issues & Solutions</h4>
+                <p class="card-description">
+                    Solve everyday problems quickly. From missed collections to technical glitches,
+                    find solutions to common challenges.
+                </p>
+            </div>
+
+            <div class="knowledge-card card-tips" onclick="showKnowledge('tips')">
+                <div class="card-icon">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <h4 class="card-title">Eco-Friendly Tips</h4>
+                <p class="card-description">
+                    Discover practical ways to reduce waste, live sustainably,
+                    and make a positive environmental impact in your daily life.
+                </p>
+            </div>
+        </div>
+
+        <!-- Interactive Quick Tips Carousel -->
+        <div class="quick-tips">
+            <div class="tips-header">
+                <div class="tips-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <div>
+                    <h3>Quick Tips</h3>
+                    <p class="mb-0">Swipe through helpful waste management tips</p>
+                </div>
+            </div>
+
+            <div class="tip-carousel">
+                <div class="tip-slides" id="tipSlides">
+                    <div class="tip-slide">
+                        <span class="tip-number">1</span>
+                        <strong>Perfect Timing:</strong> Place your bins at the curb by 6:00 AM on collection day for guaranteed pickup.
+                    </div>
+                    <div class="tip-slide">
+                        <span class="tip-number">2</span>
+                        <strong>Clean Recycling:</strong> Rinse containers before recycling to prevent contamination and improve processing quality.
+                    </div>
+                    <div class="tip-slide">
+                        <span class="tip-number">3</span>
+                        <strong>Organic Composting:</strong> Use biodegradable bags for organic waste and consider home composting for garden scraps.
+                    </div>
+                    <div class="tip-slide">
+                        <span class="tip-number">4</span>
+                        <strong>Reduce & Reuse:</strong> Before discarding items, think about creative ways to repurpose or donate them.
+                    </div>
+                    <div class="tip-slide">
+                        <span class="tip-number">5</span>
+                        <strong>Stay Updated:</strong> Enable notifications to receive important updates about schedule changes or new services.
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-controls">
+                <span class="carousel-dot active" onclick="goToSlide(0)"></span>
+                <span class="carousel-dot" onclick="goToSlide(1)"></span>
+                <span class="carousel-dot" onclick="goToSlide(2)"></span>
+                <span class="carousel-dot" onclick="goToSlide(3)"></span>
+                <span class="carousel-dot" onclick="goToSlide(4)"></span>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="faq-section">
+            <div class="faq-header">
+                <h3 class="faq-title">Frequently Asked Questions</h3>
+            </div>
+            <ul class="faq-list">
+                <li class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>How do I find my collection schedule?</span>
+                        <i class="fas fa-chevron-down faq-toggle"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Go to "Collection Schedule" → Select your Municipal Council and Ward → Click "View Schedule". Your weekly calendar will display all collection days with waste types.
+                        </div>
+                    </div>
+                </li>
+                <li class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>What if my waste wasn't collected?</span>
+                        <i class="fas fa-chevron-down faq-toggle"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Submit a "Missed Collection" complaint through the Complaints section. Include your location and scheduled collection day. We'll arrange pickup within 24 hours.
+                        </div>
+                    </div>
+                </li>
+                <li class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Which items can I recycle?</span>
+                        <i class="fas fa-chevron-down faq-toggle"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Clean paper, cardboard, plastic bottles (#1-7), glass containers, and metal cans. Avoid contaminated items, electronics, and hazardous materials in recycling bins.
+                        </div>
+                    </div>
+                </li>
+                <li class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>How do I set up collection reminders?</span>
+                        <i class="fas fa-chevron-down faq-toggle"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            In your collection schedule, click the bell icon next to any collection day, or use "Enable All Reminders" button to activate notifications for all scheduled pickups.
+                        </div>
+                    </div>
+                </li>
+                <li class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>How quickly are complaints resolved?</span>
+                        <i class="fas fa-chevron-down faq-toggle"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            High priority issues are resolved within 24 hours, routine matters within 48 hours. You'll receive SMS/email updates throughout the resolution process.
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Contact Section -->
+        <div class="contact-section">
+            <h3 class="mb-3">Still Need Help?</h3>
+            <p class="text-muted mb-4">Our support team is here to assist you</p>
+
+            <div class="contact-cards">
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <h5 class="contact-title">Call Support</h5>
+                    <p class="contact-info">Mon-Fri 8AM-6PM<br>Sat 8AM-2PM</p>
+                    <strong class="brand-color">+94 11 234 5678</strong>
+                </div>
+
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h5 class="contact-title">Email Us</h5>
+                    <p class="contact-info">Get detailed help<br>24-48 hour response</p>
+                    <strong class="brand-color">help@recyclanka.lk</strong>
+                </div>
+
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h5 class="contact-title">Live Chat</h5>
+                    <p class="contact-info">Instant assistance<br>Available 9AM-5PM</p>
+                    <strong class="brand-color">Start Conversation</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--User Profile-->
+<section id="userProfile" class="section userProfile">
+    <div class="user-account-wrapper">
+        <!-- Profile Header -->
+        <div class="account-profile-banner account-fade-in">
+            <div class="user-avatar-circle">
+                <i class="fas fa-user"></i>
+                <div class="avatar-camera-badge" title="Change Avatar">
+                    <i class="fas fa-camera"></i>
+                </div>
+            </div>
+
+            <div class="user-details-section">
+                <h1 class="user-display-name">John Doe</h1>
+                <p class="user-organization-role">Municipal Council</p>
+
+                <div class="user-statistics-row">
+                    <div class="statistics-item">
+                        <div class="statistics-number">156</div>
+                        <div class="statistics-text">Reports</div>
+                    </div>
+                    <div class="statistics-item">
+                        <div class="statistics-number">2.3k</div>
+                        <div class="statistics-text">Impact Score</div>
+                    </div>
+                    <div class="statistics-item">
+                        <div class="statistics-number">12</div>
+                        <div class="statistics-text">Months Active</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Form -->
+        <div class="account-settings-card account-fade-in">
+            <!-- Personal Information Section -->
+            <div class="settings-form-section">
+                <div class="settings-section-header">
+                    <div class="settings-icon-box">
+                        <i class="fas fa-user-edit"></i>
+                    </div>
+                    <div>
+                        <h3 class="settings-heading">Personal Information</h3>
+                        <p class="settings-description">Update your basic profile details</p>
+                    </div>
+                </div>
+
+                <form id="userPersonalDataForm">
+                    <div class="account-fields-row">
+                        <div class="account-form-field">
+                            <label for="userFirstNameInput">First Name</label>
+                            <input type="text" class="account-input-field" id="userFirstNameInput" name="userFirstName" value="John" required>
+                        </div>
+                        <div class="account-form-field">
+                            <label for="userLastNameInput">Last Name</label>
+                            <input type="text" class="account-input-field" id="userLastNameInput" name="userLastName" value="Doe" required>
+                        </div>
+                    </div>
+
+                    <div class="account-form-field">
+                        <label for="userOrganizationSelect">Organization</label>
+                        <select class="account-input-field" id="userOrganizationSelect" name="userOrganization">
+                            <option value="">Select your organization</option>
+                            <option value="Municipal Council" selected>Municipal Council</option>
+                            <option value="Waste Collection Services">Waste Collection Services</option>
+                            <option value="Recycling Center">Recycling Center</option>
+                            <option value="Environmental Agency">Environmental Agency</option>
+                            <option value="Citizen">Citizen</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="account-form-field">
+                        <label for="userPhoneInput">Phone Number</label>
+                        <input type="tel" class="account-input-field" id="userPhoneInput" name="userPhone" value="+94 77 123 4567" required>
+                    </div>
+
+                    <div class="account-form-buttons">
+                        <button type="button" class="profile-cancel-btn">Cancel</button>
+                        <button type="submit" class="profile-save-btn">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Account Security Section -->
+            <div class="settings-form-section">
+                <div class="settings-section-header">
+                    <div class="settings-icon-box">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div>
+                        <h3 class="settings-heading">Account Security</h3>
+                        <p class="settings-description">Manage your password and security settings</p>
+                    </div>
+                </div>
+
+                <div class="profile-alert-msg alert-info-msg">
+                    <i class="fas fa-info-circle me-2"></i>
+                    For your security, we recommend changing your password regularly and using a strong, unique password.
+                </div>
+
+                <form id="userSecurityUpdateForm">
+                    <div class="account-form-field">
+                        <label for="currentUserPassword">Current Password</label>
+                        <div class="secure-password-wrapper">
+                            <input type="password" class="account-input-field" id="currentUserPassword" name="currentUserPassword" placeholder="Enter your current password" required>
+                            <button type="button" class="password-visibility-btn" onclick="togglePasswordField('currentUserPassword')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="account-form-field">
+                        <label for="newUserPassword">New Password</label>
+                        <div class="secure-password-wrapper">
+                            <input type="password" class="account-input-field" id="newUserPassword" name="newUserPassword" placeholder="Enter your new password" required>
+                            <button type="button" class="password-visibility-btn" onclick="togglePasswordField('newUserPassword')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="pwd-strength-indicator">
+                            <div class="pwd-strength-bar">
+                                <div class="pwd-strength-fill"></div>
+                            </div>
+                            <div class="pwd-strength-message">Password strength will appear here</div>
+                        </div>
+                    </div>
+
+                    <div class="account-form-field">
+                        <label for="confirmUserPassword">Confirm New Password</label>
+                        <div class="secure-password-wrapper">
+                            <input type="password" class="account-input-field" id="confirmUserPassword" name="confirmUserPassword" placeholder="Confirm your new password" required>
+                            <button type="button" class="password-visibility-btn" onclick="togglePasswordField('confirmUserPassword')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="account-form-buttons">
+                        <button type="button" class="profile-cancel-btn">Cancel</button>
+                        <button type="submit" class="profile-save-btn">Update Password</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
 <!-- Footer -->
 <footer class="admin-footer">
     <div class="container">
@@ -1004,7 +1384,7 @@
             <div class="col-lg-2 col-md-3 col-sm-6 mb-4">
                 <h6 class="footer-title text-md-start text-center">Support</h6>
                 <ul class="footer-links">
-                    <li><a href="#help">Help Center</a></li>
+                    <li><a href="#help" onclick="showSection('help')">Help Center</a></li>
                     <li><a href="#documentation">Documentation</a></li>
                     <li><a href="#training">Training</a></li>
                     <li><a href="#contact">Contact Us</a></li>
@@ -1058,6 +1438,8 @@
 <script src="js/user-script.js"></script>
 <script src="js/user-waste-schedule.js"></script>
 <script src="js/user-complaint.js"></script>
+<script src="js/userHelp.js"></script>
+<script src="js/userProfile.js"></script>
 
 <script>
     document.getElementById('dashboard').style.display = 'block';
