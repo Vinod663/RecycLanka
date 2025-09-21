@@ -64,9 +64,20 @@ With its **secure authentication**, **role-based dashboards**, and **real-time a
 
 ## 🖼️ Screenshots
 
-| SignUp Page                            | Admin Dashboard | Complaint Form | User Management |
-|----------------------------------------|-----------------|----------------|----------------|
-| ![SignUp Page](https://imgur.com/a/wmjyOKg) | ![Admin Dashboard](screenshots/admin-dashboard.png) | ![Complaint Form](screenshots/complaint-form.png) | ![User Management](screenshots/user-management.png) |
+SignUp Page
+![SignUp Page](https://i.imgur.com/jewyKBK.png)
+
+SignIn Page  
+![SignIn Page](https://i.imgur.com/bmDdXp2.png)
+
+Dashboard  
+![Dashboard](https://i.imgur.com/RPMrewi.png)
+
+Collection Schedule Page
+![Collection Schedule Page](https://i.imgur.com/G5cZSE4.png)
+
+Complaint Handle Page
+![Complaint Handle Page](https://i.imgur.com/GFDTOzT.png)
 
 ---
 
