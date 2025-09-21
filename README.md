@@ -14,7 +14,7 @@ With its **secure authentication**, **role-based dashboards**, and **real-time a
 - 📝 **Complaint Management** – Citizens can lodge and track waste-related issues.
 - 👥 **User & Role Management** – Admins, staff, and citizens with tailored access.
 - 📊 **Data-Driven Insights** – Monitor collection progress and environmental impact.
-- 🔒 **Secure Access** – JWT-based authentication and Spring Security.
+- 🔒 **Secure Access** – JWT-based authentication and Spring Security
 - 🌱 **Eco-Friendly Mission** – Encouraging recycling, reducing waste, and promoting sustainability.
 
 ---
