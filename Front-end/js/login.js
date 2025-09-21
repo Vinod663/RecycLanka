@@ -98,6 +98,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
                                     success: function (response) {
                                         console.log("👤 Logged in as USER");
+                                        // Store user email for future use if login as user
+                                        localStorage.removeItem("userEmail");
+                                        localStorage.setItem("userEmail", email);
                                         window.location.href="userDashboard.html";
                                     },
 

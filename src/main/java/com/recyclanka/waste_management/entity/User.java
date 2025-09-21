@@ -17,9 +17,15 @@ public class User {
     private long id;
     private String firstName;
     private String lastName;
+
+    @Column(unique = true)
     private String email;
+
     private String password;
+
+    @Column(unique = true)
     private String phoneNumber;
+
     private String organizationName;
     @Enumerated(EnumType.STRING)
     private Role role;

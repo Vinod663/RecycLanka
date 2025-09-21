@@ -50,20 +50,26 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="showSection('userProfile')">
+                        <i class="fas fa-user me-2"></i>Profile Management
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="#" onclick="showSection('help')">
                         <i class="fa-regular fa-circle-question"></i>Help
                     </a>
                 </li>
-                <li class="nav-item dropdown">
+
+                <!--<li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                         <i class="fas fa-ellipsis-h me-1"></i>More
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#"><i class="fas fa-file-alt me-2"></i>Reports</a></li>
                         <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Settings</a></li>
-                        <!--<li><a class="dropdown-item" href="#users"><i class="fas fa-users me-2"></i>User Management</a></li>-->
+                        &lt;!&ndash;<li><a class="dropdown-item" href="#users"><i class="fas fa-users me-2"></i>User Management</a></li>&ndash;&gt;
                     </ul>
-                </li>
+                </li>-->
             </ul>
 
             <div class="navbar-nav">
@@ -75,8 +81,8 @@
                         <span>Vinod Niloshana</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#profile"><i class="fas fa-user me-2"></i>Profile</a></li>
-                        <li><a class="dropdown-item" href="#notifications"><i class="fas fa-bell me-2"></i>Notifications</a></li>
+                        <!--<li><a class="dropdown-item" href="#profile"><i class="fas fa-user me-2"></i>Profile</a></li>
+                        <li><a class="dropdown-item" href="#notifications"><i class="fas fa-bell me-2"></i>Notifications</a></li>-->
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" id="logoutBtn" href="#"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
                     </ul>
@@ -163,11 +169,18 @@
                 <div class="col-lg-4">
                     <div class="hero-image">
                         <div class="floating-cards">
-                            <div class="card float-card card-1">
+                            <!--<div class="card float-card card-1">
                                 <div class="card-body text-center">
                                     <i class="fas fa-recycle  fs-2 mb-2 brand-color"></i>
                                     <h6>Smart Recycling</h6>
                                     <small class="text-muted">AI-powered sorting</small>
+                                </div>
+                            </div>-->
+                            <div class="card float-card card-1">
+                                <div class="card-body text-center">
+                                    <i class="fa-solid fa-calendar-check fs-2 mb-2 brand-color"></i>
+                                    <h6>Smart Schedules</h6>
+                                    <small class="text-muted">Automated & eco-friendly planning</small>
                                 </div>
                             </div>
                             <div class="card float-card card-2">
@@ -215,7 +228,7 @@
                         </div>
                         <h5>Waste Collection Schedule</h5>
                         <p>Check your upcoming pickup dates and collection types</p>
-                        <div class="action-badge">3 collections this month</div>
+                        <div class="action-badge">Check collections this month</div>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 mb-4">
@@ -1366,28 +1379,29 @@
                 <ul class="footer-links">
                     <li><a href="#" onclick="showSection('dashboard')">Dashboard</a></li>
                     <li><a href="#" onclick="showSection('collection-schedule')">Collections</a></li>
-                    <li><a href="#inventory">Inventory</a></li>
-                    <li><a href="#statistics">Analytics</a></li>
+                   <!-- <li><a href="#inventory">Inventory</a></li>
+                    <li><a href="#statistics">Analytics</a></li>-->
                 </ul>
             </div>
 
             <div class="col-lg-2 col-md-3 col-sm-6 mb-4">
                 <h6 class="footer-title text-md-start text-center">Management</h6>
                 <ul class="footer-links">
-                    <li><a href="#waste-entry">Waste Entry</a></li>
+                    <!--<li><a href="#waste-entry">Waste Entry</a></li>-->
+                    <li><a href="#" onclick="showSection('userProfile')">Profile Management</a></li>
                     <li><a href="#" onclick="showSection('complaints')">Complaints</a></li>
-                    <li><a href="#reports">Reports</a></li>
-                    <li><a href="#settings">Settings</a></li>
+                    <!--<li><a href="#reports">Reports</a></li>
+                    <li><a href="#settings">Settings</a></li>-->
                 </ul>
             </div>
 
             <div class="col-lg-2 col-md-3 col-sm-6 mb-4">
                 <h6 class="footer-title text-md-start text-center">Support</h6>
                 <ul class="footer-links">
-                    <li><a href="#help" onclick="showSection('help')">Help Center</a></li>
-                    <li><a href="#documentation">Documentation</a></li>
-                    <li><a href="#training">Training</a></li>
-                    <li><a href="#contact">Contact Us</a></li>
+                    <li><a href="#" onclick="showSection('help')">Help Center</a></li>
+                    <!--<li><a href="#documentation">Documentation</a></li>
+                    <li><a href="#training">Training</a></li>-->
+                    <li><a href="#" onclick="showSection('help')">Contact Us</a></li>
                 </ul>
             </div>
 
