@@ -144,7 +144,7 @@ We welcome contributions to make **RecycLanka** even better!
 
 ## 📜 License
 
-This project is licensed under the **MIT License** – feel free to use and modify it.
+This project is licensed under the **MIT License**. – feel free to use and modify it.
 
 ---
 
