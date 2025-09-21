@@ -19,6 +19,13 @@ With its **secure authentication**, **role-based dashboards**, and **real-time a
 
 ---
 
+## ▶️ YouTube Video Demo
+
+🎥 Watch the full walkthrough of **RecycLanka** here:  
+👉 [YouTube Video Link](https://your-youtube-link-here.com)
+
+---
+
 ## 🗂️ Project Structure
 
 ````
