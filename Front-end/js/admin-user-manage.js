@@ -1,5 +1,5 @@
 // Sample user data based on your entity
-const usersData = [
+/*const usersData = [
     {
         id: 1,
         firstName: 'John',
@@ -83,50 +83,6 @@ document.addEventListener('DOMContentLoaded', function() {
     setupEventListeners();
 });
 
-function setupEventListeners() {
-    // Filter functionality
-    document.getElementById('organizationFilter').addEventListener('change', function() {
-        filterUsers();
-    });
-
-    document.getElementById('roleFilter').addEventListener('change', function() {
-        filterUsers();
-    });
-
-    // Export button
-    document.getElementById('exportUsersBtn').addEventListener('click', function() {
-        exportUsers();
-    });
-
-    // Add user button
-    document.getElementById('addUserBtn').addEventListener('click', function() {
-        addNewUser();
-    });
-
-    // Modal close on background click
-    document.getElementById('userDetailModal').addEventListener('click', function(e) {
-        if (e.target === this) {
-            closeUserDetailModal();
-        }
-    });
-}
-
-function filterUsers() {
-    const orgFilter = document.getElementById('organizationFilter').value;
-    const roleFilter = document.getElementById('roleFilter').value;
-
-    filteredUsers = usersData.filter(user => {
-        const matchesOrg = !orgFilter || user.organizationName === orgFilter;
-        const matchesRole = !roleFilter || user.role === roleFilter;
-
-        return matchesOrg && matchesRole;
-    });
-
-    currentPage = 1;
-    renderUsersTable();
-    updatePaginationInfo();
-}
-
 function renderUsersTable() {
     const tbody = document.getElementById('usersTableBody');
     tbody.innerHTML = '';
@@ -195,27 +151,9 @@ function createUserRow(user) {
 function getRoleBadgeClass(role) {
     switch(role) {
         case 'ADMIN': return 'status-active';
-        case 'MODERATOR': return 'status-pending';
         case 'USER': return 'status-inactive';
         default: return 'status-inactive';
     }
-}
-
-function formatDate(dateString) {
-    const date = new Date(dateString);
-    const today = new Date();
-    const diffTime = Math.abs(today - date);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    if (diffDays === 1) return 'Today';
-    if (diffDays === 2) return 'Yesterday';
-    if (diffDays <= 7) return `${diffDays} days ago`;
-
-    return date.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-    });
 }
 
 function updatePaginationInfo() {
@@ -250,121 +188,254 @@ function viewUserDetails(userId) {
 function closeUserDetailModal() {
     document.getElementById('userDetailModal').classList.remove('show');
     document.body.style.overflow = 'auto';
-}
+}*/
 
-function editUser(userId) {
-    const user = usersData.find(u => u.id === userId);
-    if (!user) return;
+$(document).ready(function () {
+    loadAllUsers();
+    loadUserStats();
 
-    // For now, just show an alert. In a real app, this would open an edit form
-    alert(`Edit user: ${user.firstName} ${user.lastName}\n\nThis would open an edit form in a real application.`);
-}
+    // Filter handlers
+    $("#organizationFilter, #roleFilter").on("change", function () {
+        loadAllUsers();
 
-function editUserDetails() {
-    const userName = document.getElementById('modalUserName').textContent;
-    alert(`Edit user details for: ${userName}\n\nThis would open an edit form in a real application.`);
-    closeUserDetailModal();
-}
+    });
 
-function deleteUser(userId) {
-    const user = usersData.find(u => u.id === userId);
-    if (!user) return;
+    // Add User Button
+    $("#addUserBtn").on("click", function () {
+        $("#userDetailModal").show();
+        resetUserModal();
+    });
 
-    const confirmed = confirm(`Are you sure you want to delete user "${user.firstName} ${user.lastName}"?\n\nThis action cannot be undone.`);
+    // Export users
+    $("#exportUsersBtn").on("click", function () {
+        exportUsers();
+    });
+});
 
-    if (confirmed) {
-        // Simulate deletion
-        const button = document.querySelector(`button[onclick="deleteUser(${userId})"]`);
-        const originalContent = button.innerHTML;
-        button.innerHTML = '<div class="loading-spinner"></div>';
-        button.disabled = true;
+// ================= Load All Users =================
+function loadAllUsers() {
+    let token = localStorage.getItem("accessToken");
+    let orgFilter = $("#organizationFilter").val();
+    let roleFilter = $("#roleFilter").val();
 
-        setTimeout(() => {
-            // In a real app, you would make an API call here
-            const index = usersData.findIndex(u => u.id === userId);
-            if (index > -1) {
-                usersData.splice(index, 1);
-                filterUsers(); // Refresh the table
+    $.ajax({
+        url: "http://localhost:8080/api/v1/users",
+        method: "GET",
+        headers: {"Authorization": "Bearer " + token},
+        success: function (response) {
+            if (response.status === 200) {
+                let users = response.data;
 
-                // Show success message
-                showNotification('User deleted successfully', 'success');
+                // Apply filters
+                if (orgFilter) {
+                    users = users.filter(u => u.organizationName === orgFilter);
+                }
+                if (roleFilter) {
+                    users = users.filter(u => u.role === roleFilter);
+                }
+
+                populateUsersTable(users);
             }
-        }, 1500);
-    }
+        },
+        error: function (xhr) {
+            console.error(xhr.responseText);
+            alert("Failed to load users.");
+        }
+    });
 }
 
-function addNewUser() {
-    alert('Add New User\n\nThis would open a form to create a new user account.');
+function populateUsersTable(users) {
+    let tbody = $("#usersTableBody");
+    tbody.empty();
+
+    if (!users || users.length === 0) {
+        tbody.append("<tr><td colspan='6'>No users found</td></tr>");
+        return;
+    }
+
+    users.forEach(user => {
+        tbody.append(`
+            <tr>
+                <td>${user.firstName} ${user.lastName} <br><small>${user.email}</small></td>
+                <td>${user.organizationName || "-"}</td>
+                <td>${user.phoneNumber || "-"}</td>
+                <td>${user.role}</td>
+                <td>${user.id}</td>
+                <td>
+                    <button class="admin-btn-secondary action-btn action-btn-view" onclick="viewUser('${user.email}')">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="admin-btn-primary action-btn action-btn-edit" onclick="editUser('${user.email}')">
+                        <i class="fas fa-edit"></i>
+                    </button>
+               
+                </td>
+            </tr>
+        `);
+    });
+}
+
+/*<button className="admin-btn-danger action-btn action-btn-delete" onClick="deleteUser('${user.email}')">
+    <i className="fas fa-trash"></i>
+</button>*/
+
+function loadUserStats() {
+    let token = localStorage.getItem("accessToken");
+
+    $.ajax({
+        url: "http://localhost:8080/api/v1/users/stats",
+        method: "GET",
+        headers: {
+            "Authorization": "Bearer " + token
+        },
+        success: function (response) {
+            $("#totalUSerCount").prev().text(response.data.total);
+            $("#MunicipalUsers").prev().text(response.data.municipal);
+            $("#citizenUsers").prev().text(response.data.citizen);
+            $("#organizationalUsers").prev().text(response.data.organization);
+        },
+        error: function (xhr) {
+            console.error(xhr.responseText);
+            alert("Error loading stats.");
+        }
+    });
+}
+
+
+// ================= Helpers =================
+function resetUserModal() {
+    $("#modalUserId").text("New User");
+    $("#modalUserFirstName").text("");
+    $("#modalUserLastName").text("");
+    $("#modalUserOrg").text("");
+    $("#modalUserPhone").text("");
+    $("#modalUserRole").text("USER");
+    $("#modalUserName").text("New User");
+    $("#modalUserEmail").text("");
+}
+
+function closeUserDetailModal() {
+    $("#userDetailModal").hide();
+
 }
 
 function exportUsers() {
-    const button = document.getElementById('exportUsersBtn');
-    const originalContent = button.innerHTML;
-    button.innerHTML = '<div class="loading-spinner"></div> Exporting...';
-    button.disabled = true;
-
-    setTimeout(() => {
-        button.innerHTML = originalContent;
-        button.disabled = false;
-
-        // Simulate export
-        showNotification('Users exported successfully', 'success');
-    }, 2000);
+    alert("Export to CSV/PDF coming soon 🚀");
 }
 
-function showNotification(message, type = 'info') {
-    // Create notification element
-    const notification = document.createElement('div');
-    notification.className = `profile-alert-msg alert-${type === 'success' ? 'success' : 'info'}-msg`;
-    notification.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'info-circle'}"></i> ${message}`;
-    notification.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                z-index: 1001;
-                min-width: 300px;
-                animation: slideIn 0.3s ease-out;
-            `;
+// ================= View / Edit User =================
+function viewUser(email) {
+    let token = localStorage.getItem("accessToken");
 
-    document.body.appendChild(notification);
-
-    // Auto remove after 3 seconds
-    setTimeout(() => {
-        notification.style.animation = 'slideOut 0.3s ease-in';
-        setTimeout(() => {
-            if (notification.parentNode) {
-                notification.parentNode.removeChild(notification);
+    $.ajax({
+        url: "http://localhost:8080/api/v1/users/email/" + encodeURIComponent(email),
+        method: "GET",
+        headers: {"Authorization": "Bearer " + token},
+        success: function (response) {
+            if (response.status === 200) {
+                let u = response.data;
+                $("#modalUserId").text(u.id);
+                $("#modalUserFirstName").text(u.firstName);
+                $("#modalUserLastName").text(u.lastName);
+                $("#modalUserOrg").text(u.organizationName);
+                $("#modalUserPhone").text(u.phoneNumber);
+                $("#modalUserRole").text(u.role);
+                $("#modalUserName").text(u.firstName + " " + u.lastName);
+                $("#modalUserEmail").text(u.email);
+                $("#userDetailModal").show();
             }
-        }, 300);
-    }, 3000);
+        },
+        error: function () {
+            alert("Failed to load user details.");
+        }
+    });
 }
 
-// Add CSS for notification animations
-/*const style = document.createElement('style');
-style.textContent = `
-            @keyframes slideIn {
-                from {
-                    transform: translateX(100%);
-                    opacity: 0;
-                }
-                to {
-                    transform: translateX(0);
-                    opacity: 1;
-                }
-            }
-            
-            @keyframes slideOut {
-                from {
-                    transform: translateX(0);
-                    opacity: 1;
-                }
-                to {
-                    transform: translateX(100%);
-                    opacity: 0;
-                }
-            }
-        `;
-document.head.appendChild(style);*/
+function editUser(email) {
+    let token = localStorage.getItem("accessToken");
 
-// Initialize pagination info
-updatePaginationInfo();
+    $.ajax({
+        url: "http://localhost:8080/api/v1/users/email/" + encodeURIComponent(email),
+        method: "GET",
+        headers: {"Authorization": "Bearer " + token},
+        success: function (response) {
+            if (response.status === 200) {
+                let u = response.data;
+
+                // fill modal inputs
+                $("#UserId").text(u.id);
+                $("#modalUserFirstNameInput").val(u.firstName);
+                $("#modalUserLastNameInput").val(u.lastName);
+                $("#modalUserEmailInput").val(u.email);
+                $("#modalUserPhoneInput").val(u.phoneNumber);
+                $("#modalUserOrgInput").val(u.organizationName);
+                $("#modalUserRoleInput").val(u.role);
+
+                // show modal
+                $("#userEditModal").modal("show");
+            }
+        },
+        error: function () {
+            alert("Failed to load user details.");
+        }
+    });
+}
+
+/*function saveUserEdits() {//mail ekn edit karanna ba ekama mail eken dennek inna bari nisa
+    let token = localStorage.getItem("accessToken");
+
+    let payload = {
+        firstName: $("#modalUserFirstNameInput").val().trim(),
+        lastName: $("#modalUserLastNameInput").val().trim(),
+        phoneNumber: $("#modalUserPhoneInput").val().trim(),
+        organizationName: $("#modalUserOrgInput").val(),
+        role: $("#modalUserRoleInput").val()
+    };
+
+    $.ajax({
+        url: "http://localhost:8080/api/v1/users/profile?email=" + $("#modalUserEmailInput").val().trim(), // or admin update endpoint
+        method: "PUT",
+        headers: { "Authorization": "Bearer " + token },
+        contentType: "application/json",
+        data: JSON.stringify(payload),
+        success: function () {
+            alert("User updated successfully!");
+            $("#userEditModal").modal("hide");
+            loadAllUsers();
+            loadUserStats(); // refresh dashboard
+        },
+        error: function (xhr) {
+            console.error(xhr.responseText);
+            alert("Error updating user.");
+        }
+    });
+}*/
+
+
+// ================= Delete User =================
+/*function deleteUser(email) {
+    if (!confirm("Are you sure you want to delete this user?")) return;
+
+    let token = localStorage.getItem("accessToken");
+
+    $.ajax({
+        url: "http://localhost:8080/api/v1/users/" + encodeURIComponent(email),
+        method: "DELETE",
+        headers: { "Authorization": "Bearer " + token },
+        success: function () {
+            alert("User deleted successfully.");
+            loadAllUsers();
+        },
+        error: function () {
+            alert("Failed to delete user.");
+        }
+    });
+}*/ //transaction
+
+
+//ward tika danna
+//edit eka hadanna
+//tawa data tikak save karanna
+
+
+

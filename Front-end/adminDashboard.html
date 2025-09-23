@@ -284,11 +284,11 @@
                         Set specific times for degradable, recyclable, and non-recyclable waste collection.
                     </p>
                 </div>
-                <div class="col-lg-4 d-flex align-items-center justify-content-end">
+                <!--<div class="col-lg-4 d-flex align-items-center justify-content-end">
                     <button class="btn btn-primary" onclick="generatePDFReport()">
                         <i class="fas fa-file-pdf me-2"></i>Generate PDF Report
                     </button>
-                </div>
+                </div>-->
             </div>
         </div>
     </section>
@@ -687,9 +687,9 @@
                         <span class="result-count" id="resultCount">(182 complaints)</span>
                     </h3>
                     <div class="table-actions">
-                        <button type="button" class="btn btn-outline-success me-2" onclick="exportComplaints();">
+                        <!--<button type="button" class="btn btn-outline-success me-2" onclick="exportComplaints();">
                             <i class="fas fa-download me-1"></i>Export
-                        </button>
+                        </button>-->
                         <button type="button" class="btn btn-outline-success me-2" onclick="resetFilters();">
                             <i class="fas fa-sync-alt me-1"></i>Refresh
                         </button>
@@ -913,19 +913,19 @@
             <div class="admin-stats-overview">
                 <div class="admin-stat-card">
                     <div class="admin-stat-number">1,247</div>
-                    <div class="admin-stat-label">Total Users</div>
+                    <div class="admin-stat-label" id="totalUSerCount">Total Users</div>
                 </div>
                 <div class="admin-stat-card">
                     <div class="admin-stat-number">587</div>
-                    <div class="admin-stat-label">Municipal Council</div>
+                    <div class="admin-stat-label" id="MunicipalUsers">Municipal Council</div>
                 </div>
                 <div class="admin-stat-card">
                     <div class="admin-stat-number">423</div>
-                    <div class="admin-stat-label">Citizens</div>
+                    <div class="admin-stat-label" id="citizenUsers">Citizens</div>
                 </div>
                 <div class="admin-stat-card">
                     <div class="admin-stat-number">237</div>
-                    <div class="admin-stat-label">Organizations</div>
+                    <div class="admin-stat-label" id="organizationalUsers">Organizations</div>
                 </div>
             </div>
         </div>
@@ -949,15 +949,14 @@
                             <option value="">All Roles</option>
                             <option value="ADMIN">Admin</option>
                             <option value="USER">User</option>
-                            <option value="MODERATOR">Moderator</option>
                         </select>
                     </div>
 
                     <div class="toolbar-actions">
-                        <button class="admin-btn-secondary" id="exportUsersBtn">
+                        <!--<button class="admin-btn-secondary" id="exportUsersBtn">
                             <i class="fas fa-download"></i>
                             Export
-                        </button>
+                        </button>-->
                         <button class="admin-btn-primary" id="addUserBtn">
                             <i class="fas fa-plus"></i>
                             Add User
@@ -1054,13 +1053,93 @@
 
             <div class="modal-actions">
                 <button class="admin-btn-secondary" onclick="closeUserDetailModal()">Close</button>
-                <button class="admin-btn-primary" onclick="editUserDetails()">
+                <!--<button class="admin-btn-primary" onclick="editUserDetails()">
                     <i class="fas fa-edit"></i>
                     Edit User
-                </button>
+                </button>-->
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="userEditModal" tabindex="-1" aria-labelledby="userEditModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <!-- Header -->
+                <div class="modal-header">
+                    <h5 class="modal-title" id="userEditModalLabel">
+                        <i class="fas fa-user-edit me-2"></i>
+                        Edit User - <span id="UserId">#U001</span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Body -->
+                <div class="modal-body">
+                    <form id="userEditForm">
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="modalUserFirstNameInput" required>
+                                    <label for="modalUserFirstNameInput">First Name</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="modalUserLastNameInput" required>
+                                    <label for="modalUserLastNameInput">Last Name</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="email" class="form-control" id="modalUserEmailInput" readonly>
+                                    <label for="modalUserEmailInput">Email</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="modalUserPhoneInput">
+                                    <label for="modalUserPhoneInput">Phone Number</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <select class="form-select" id="modalUserOrgInput">
+                                        <option value="Municipal Council">Municipal Council</option>
+                                        <option value="Waste Collection Services">Waste Collection Services</option>
+                                        <option value="Recycling Center">Recycling Center</option>
+                                        <option value="Environmental Agency">Environmental Agency</option>
+                                        <option value="Citizen">Citizen</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    <label for="modalUserOrgInput">Organization</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <select class="form-select" id="modalUserRoleInput" >
+                                        <option value="ADMIN">Admin</option>
+                                        <option value="USER">User</option>
+                                    </select>
+                                    <label for="modalUserRoleInput">Role</label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-2"></i>Cancel
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="saveUserEdits()">
+                        <i class="fas fa-save me-2"></i>Save Changes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 </section>
 
